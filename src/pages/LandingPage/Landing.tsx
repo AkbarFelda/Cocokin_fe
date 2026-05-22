@@ -1,117 +1,311 @@
-import React from "react";
-import graphImage from "@/assets/images/graph-image.png";
-import meetingPhoto from "@/assets/images/Background-cocokin.png";
+import { graphImage, meetingPhoto, user1, user2 } from "../../assets/images";
+import { icon1, icon2, icon3, akurasiIcon, falseIcon, trueIcon, infoIcon } from "../../assets/icons";
 
-const Landing: React.FC = () => {
+export default function Landing() {
   return (
-    <div className="font-sans">
-      <section className="bg-gray-50 py-15">
+    <div className="font-inter text-gray-900 bg-white antialiased">
+      
+      {/* Hero Section */}
+      <section className="bg-gray-50 py-16">
         <div className="container mx-auto flex flex-col md:flex-row items-center gap-8 px-6">
-          <div className="md:w-1/2">
-            <span className="rounded-2xl bg-blue-200 text-gray-700 text-sm uppercase items-start mb-2 px-3 py-1 inline-block">
-              AI-Powered Career Analysis
-            </span>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Tau kamu cocoknya jadi apa dari <span className="text-blue-600">skill & project nyata</span>
-            </h1>
-            <p className="text-gray-700 mb-6">
-              Cocokin menganalisis CV dan portfolio kamu untuk memberikan rekomendasi karir yang akurat, lengkap dengan alasan dan gap yang harus diperbaiki.
-            </p>
-            <div className="flex gap-4">
-              <button className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
-                Analyze My Profile
-              </button>
-              <button className="bg-gray-200 text-gray-800 px-6 py-2 rounded hover:bg-gray-300 transition">
-                Lihat Cara Kerja
-              </button>
+          <div className="self-stretch inline-flex flex-col justify-start items-start gap-6 md:w-1/2">
+            <div className="px-3 py-1 bg-blue-100 rounded-full inline-flex justify-start items-center">
+              <div className="justify-center text-gray-500 text-xs font-semibold font-inter leading-4 tracking-wide">
+                AI-POWERED CAREER ANALYSIS
+              </div>
+            </div>
+            <div className="self-stretch flex flex-col justify-start items-start">
+              <div className="self-stretch justify-center">
+                <span className="text-zinc-900 text-5xl md:text-7xl font-extrabold font-manrope leading-tight md:leading-18">
+                  Tau kamu cocoknya
+                  <br />
+                  jadi apa dari{" "}
+                </span>
+                <span className="text-blue-800 text-5xl md:text-7xl font-extrabold font-manrope leading-tight">
+                  skill &<br />
+                  project nyata
+                </span>
+              </div>
+            </div>
+            <div className="w-full max-w-2xl pt-2 flex flex-col justify-start items-start">
+              <div className="justify-center text-gray-700 text-xl font-normal font-inter leading-7">
+                Cocokin menganalisis CV dan portfolio kamu untuk memberikan
+                <br className="hidden md:inline" />
+                rekomendasi karir yang akurat, lengkap dengan alasan dan gap
+                yang
+                <br className="hidden md:inline" />
+                harus diperbaiki.
+              </div>
+            </div>
+            <div className="self-stretch pt-4 inline-flex justify-start items-start gap-4">
+              <div className="px-8 py-4 bg-linear-86 from-blue-800 to-blue-700 rounded-2xl inline-flex flex-col justify-center items-center cursor-pointer hover:opacity-90 transition">
+                <div className="text-center justify-center text-white text-lg font-bold font-inter leading-7">
+                  Analyze My Profile
+                </div>
+              </div>
+              <div className="px-8 py-4 bg-gray-100 rounded-2xl inline-flex flex-col justify-center items-center cursor-pointer hover:bg-gray-200 transition">
+                <div className="text-center justify-center text-gray-700 text-lg font-bold font-inter leading-7">
+                  Lihat Cara Kerja
+                </div>
+              </div>
             </div>
           </div>
           <div className="md:w-1/2 flex justify-end">
-            <img src={graphImage} alt="Data Graph"/>
+            <img
+              src={graphImage}
+              alt="Data Graph"
+              className="w-full max-w-lg object-contain"
+            />
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="py-20">
-        <div className="container mx-auto text-center px-6">
-          <h2 className="text-3xl font-bold mb-4">Bagaimana Cocokin Membantumu</h2>
-          <p className="text-gray-600 mb-12">Proses analisis yang mendalam namun instan untuk menentukan masa depan karirmu.</p>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded shadow">
-              <div className="text-blue-600 mb-4 text-2xl">1</div>
-              <h3 className="font-semibold mb-2">Upload</h3>
-              <p>Unggah CV, LinkedIn PDF, atau link portfolio project yang pernah kamu kerjakan.</p>
+      {/* Bagian Bagaimana Cocokin Membantumu */}
+      <section className="w-full py-24 bg-gray-100 flex flex-col justify-start items-start">
+        <div className="container mx-auto px-6 flex flex-col justify-start items-start gap-16">
+          <div className="self-stretch flex flex-col justify-start items-center gap-4">
+            <div className="self-stretch flex flex-col justify-start items-center">
+              <div className="text-center justify-center text-zinc-900 text-4xl font-extrabold font-manrope leading-10">
+                Bagaimana Cocokin Membantumu
+              </div>
             </div>
-            <div className="bg-white p-6 rounded shadow">
-              <div className="text-blue-600 mb-4 text-2xl">2</div>
-              <h3 className="font-semibold mb-2">Analyze</h3>
-              <p>AI kami mengekstraksi technical skill, soft skill, dan pola keberhasilan dari pengalaman nyatamu.</p>
+            <div className="w-full max-w-xl flex flex-col justify-start items-center">
+              <div className="text-center justify-center text-gray-700 text-base font-normal font-inter leading-6">
+                Proses analisis yang mendalam namun instan untuk menentukan masa
+                <br className="hidden md:inline" />
+                depan karirmu.
+              </div>
             </div>
-            <div className="bg-white p-6 rounded shadow">
-              <div className="text-blue-600 mb-4 text-2xl">3</div>
-              <h3 className="font-semibold mb-2">Insight</h3>
-              <p>Dapatkan laporan lengkap tentang role yang paling cocok, potensi gaji, dan daftar skill yang perlu dipelajari.</p>
+          </div>
+
+          <div className="w-full grid md:grid-cols-3 gap-8">
+            <div className="p-10 bg-white rounded-2xl flex flex-col justify-start items-start gap-4 shadow-xs border border-gray-50">
+              <div className="size-14 bg-blue-700 rounded-lg inline-flex justify-center items-center">
+                <img src={icon1} alt="Icon 1" className="w-5 h-6" />
+              </div>
+              <div className="self-stretch pt-4 flex flex-col justify-start items-start">
+                <div className="self-stretch justify-center text-zinc-900 text-xl font-bold font-manrope leading-7">
+                  1. Upload
+                </div>
+              </div>
+              <div className="self-stretch flex flex-col justify-start items-start">
+                <div className="self-stretch justify-center text-gray-700 text-base font-normal font-inter leading-6">
+                  Unggah CV, LinkedIn PDF, atau link portfolio proyek yang
+                  pernah kamu kerjakan.
+                </div>
+              </div>
+            </div>
+
+            <div className="p-10 bg-white rounded-2xl flex flex-col justify-start items-start gap-4 shadow-xs border border-gray-50">
+              <div className="size-14 bg-blue-700 rounded-lg inline-flex justify-center items-center">
+                <img src={icon2} alt="Icon 2" className="w-6 h-6" />
+              </div>
+              <div className="self-stretch pt-4 flex flex-col justify-start items-start">
+                <div className="self-stretch justify-center text-zinc-900 text-xl font-bold font-manrope leading-7">
+                  2. Analyze
+                </div>
+              </div>
+              <div className="self-stretch flex flex-col justify-start items-start">
+                <div className="self-stretch justify-center text-gray-700 text-base font-normal font-inter leading-6">
+                  AI kami mengekstraksi technical skill, soft skill, dan pola
+                  keberhasilan dari pengalaman nyatamu.
+                </div>
+              </div>
+            </div>
+
+            <div className="p-10 bg-white rounded-2xl flex flex-col justify-start items-start gap-4 shadow-xs border border-gray-50">
+              <div className="size-14 bg-blue-700 rounded-lg inline-flex justify-center items-center">
+                <img src={icon3} alt="Icon 3" className="w-7 h-5" />
+              </div>
+              <div className="self-stretch pt-4 flex flex-col justify-start items-start">
+                <div className="self-stretch justify-center text-zinc-900 text-xl font-bold font-manrope leading-7">
+                  3. Insight
+                </div>
+              </div>
+              <div className="self-stretch flex flex-col justify-start items-start">
+                <div className="self-stretch justify-center text-gray-700 text-base font-normal font-inter leading-6">
+                  Dapatkan laporan lengkap tentang role yang paling cocok,
+                  potensi gaji, dan daftar skill yang perlu dipelajari.
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features / Deep Analysis */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-6 grid md:grid-cols-2 gap-8 items-center">
-          <img src={meetingPhoto} alt="Meeting" className="rounded-lg shadow-lg" />
-          <div className="space-y-6">
-            <div className="bg-blue-600 text-white p-6 rounded">
-              <h3 className="text-xl font-semibold">98% Akurasi</h3>
-              <p>Algoritma kami telah dilatih dengan jutaan data karir profesional global.</p>
+      <section className="w-full py-24 p-0 bg-white flex flex-col justify-start items-start overflow-hidden">
+        <div className="container px-6 max-w-8xl">
+          <div className="w-full grid md:grid-cols-12 gap-8 items-stretch">
+            <div className="relative min-h-100 md:min-h-140 md:col-span-8 rounded-3xl overflow-hidden shadow-xs border border-gray-100">
+              <img
+                src={meetingPhoto}
+                alt="Meeting"
+                className="w-full h-full object-cover absolute inset-0"
+              />
+              <div className="w-full max-w-xs p-6 left-6 top-6 md:left-8 md:top-8 absolute bg-white/90 rounded-2xl backdrop-blur-md shadow-lg border border-white/40 flex flex-col justify-start items-start gap-2 z-10">
+                <div className="self-stretch flex flex-col justify-start items-start">
+                  <div className="justify-center text-blue-800 text-xs font-bold font-inter uppercase tracking-wider">
+                    DEEP ANALYSIS
+                  </div>
+                </div>
+                <div className="self-stretch flex flex-col justify-start items-start">
+                  <div className="justify-center text-zinc-900 text-xl font-bold font-manrope leading-7">
+                    Visualisasi Karir Terpadu
+                  </div>
+                </div>
+                <div className="self-stretch flex flex-col justify-start items-start">
+                  <div className="justify-center text-gray-600 text-sm font-normal font-inter leading-relaxed">
+                    Lihat bagaimana proyek masa lalumu memprediksi kesuksesan masa depanmu.
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="bg-white p-6 rounded shadow">
-              <h3 className="text-lg font-semibold">Trusted by Professionals</h3>
-              <p>Telah digunakan oleh ribuan talenta untuk transisi karir yang lebih mulus.</p>
+
+            <div className="md:col-span-4 flex flex-col gap-8">
+              <div className="w-full p-8 relative bg-blue-800 rounded-3xl shadow-xs flex flex-col justify-end items-start min-h-65 flex-1 overflow-hidden">
+                <div className="absolute right-8 top-8 w-10 h-10 opacity-30 flex justify-center items-center">
+                  <img src={akurasiIcon} alt="Akurasi Icon" className="w-full h-full object-contain" />
+                </div>
+                
+                <div className="self-stretch flex flex-col justify-start items-start gap-2 mt-auto">
+                  <h3 className="text-white text-3xl font-bold font-manrope leading-8">
+                    98% Akurasi
+                  </h3>
+                  <p className="text-indigo-100 text-sm font-normal font-inter leading-6 max-w-sm">
+                    Algoritma kami telah dilatih dengan jutaan data karir profesional global.
+                  </p>
+                </div>
+              </div>
+
+              <div className="w-full p-8 bg-white rounded-3xl border border-gray-100 shadow-md flex flex-col justify-end items-start min-h-65 flex-1 gap-4">
+                <div className="flex items-center -space-x-3 overflow-hidden">
+                  <img className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover" src={user1} alt="User 1" />
+                  <img className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover" src={user2} alt="User 2" />
+                  <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 ring-2 ring-white">
+                    <span className="text-[10px] font-bold font-inter text-blue-800">+12k</span>
+                  </div>
+                </div>
+
+                <div className="self-stretch flex flex-col justify-start items-start gap-1">
+                  <h3 className="text-zinc-900 text-xl font-bold font-manrope leading-7">
+                    Trusted by Professionals
+                  </h3>
+                  <p className="text-gray-600 text-sm font-normal font-inter leading-relaxed">
+                    Telah digunakan oleh ribuan talenta untuk transisi karir yang lebih mulus.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Comparison Table */}
-      <section className="py-20">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center mb-8">Kenapa Pilih Cocokin?</h2>
-          <div className="overflow-x-auto">
-            <table className="min-w-full border rounded">
-              <thead className="bg-gray-100">
+      <section className="w-full py-24 px-8 bg-gray-100 flex flex-col justify-start items-start">
+        <div className="container mx-auto max-w-7xl flex flex-col justify-start items-start gap-16">
+          <div className="self-stretch flex flex-col justify-start items-center">
+            <h2 className="text-center justify-center text-zinc-900 text-4xl font-extrabold font-manrope leading-10">
+              Kenapa Pilih Cocokin?
+            </h2>
+          </div>
+
+          <div className="w-full overflow-x-auto rounded-3xl shadow-sm border border-gray-200/50">
+            <table className="min-w-200 w-full table-layout-fixed bg-white border-collapse">
+              <thead className="bg-gray-200">
                 <tr>
-                  <th className="py-3 px-6 text-left">Fitur Analisis</th>
-                  <th className="py-3 px-6 text-left">Cocokin AI</th>
-                  <th className="py-3 px-6 text-left">Job Platforms</th>
-                  <th className="py-3 px-6 text-left">Career Tests</th>
+                  <th className="w-[25%] p-8 text-left text-zinc-900 text-base font-extrabold font-inter">
+                    Fitur Analisis
+                  </th>
+                  <th className="w-[20%] p-8 text-left text-blue-800 text-base font-extrabold font-inter">
+                    Cocokin AI
+                  </th>
+                  <th className="w-[20%] p-8 text-left text-zinc-900 text-base font-medium font-inter">
+                    Job Platforms
+                  </th>
+                  <th className="w-[23%] p-8 text-left text-zinc-900 text-base font-medium font-inter">
+                    Career Tests
+                  </th>
                 </tr>
               </thead>
-              <tbody>
-                <tr className="border-t">
-                  <td className="py-3 px-6">Analisis Project Nyata</td>
-                  <td className="py-3 px-6 text-center">✔️</td>
-                  <td className="py-3 px-6 text-center">❌</td>
-                  <td className="py-3 px-6 text-center">❌</td>
+              <tbody className="divide-y divide-gray-100">
+                <tr className="hover:bg-gray-50/50 transition">
+                  <td className="pl-10 pr-8 py-8 text-zinc-900 text-base font-semibold font-inter">
+                    Analisis Project Nyata
+                  </td>
+                  <td className="pl-14">
+                    <div className="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-bold">
+                      <img src={trueIcon} alt="True Icon" className="w-full h-full object-contain" />
+                    </div>
+                  </td>
+                  <td className="pl-14">
+                    <div className="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-bold">
+                      <img src={falseIcon} alt="False Icon" className="w-full h-full object-contain" />
+                    </div>
+                  </td>
+                  <td className="pl-14">
+                    <div className="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-bold">
+                      <img src={falseIcon} alt="False Icon" className="w-full h-full object-contain" />
+                    </div>
+                  </td>
                 </tr>
-                <tr className="border-t">
-                  <td className="py-3 px-6">Rekomendasi Skill Gap</td>
-                  <td className="py-3 px-6 text-center">✔️</td>
-                  <td className="py-3 px-6 text-center">❌</td>
-                  <td className="py-3 px-6 text-center">✔️</td>
+                <tr className="hover:bg-gray-50/50 transition">
+                  <td className="pl-10 pr-8 py-8 text-zinc-900 text-base font-semibold font-inter">
+                    Rekomendasi Skill Gap
+                  </td>
+                  <td className="pl-14 pr-8 py-8">
+                    <div className="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-bold">
+                      <img src={trueIcon} alt="True Icon" className="w-full h-full object-contain" />
+                    </div>
+                  </td>
+                  <td className="pl-14 pr-8 py-8">
+                    <div className="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-bold">
+                      <img src={trueIcon} alt="True Icon" className="w-full h-full object-contain" />
+                    </div>
+                  </td>
+                  <td className="pl-14 pr-8 py-8">
+                    <div className="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-bold">
+                      <img src={trueIcon} alt="True Icon" className="w-full h-full object-contain brightness-0 opacity-70" />
+                    </div>
+                  </td>
                 </tr>
-                <tr className="border-t">
-                  <td className="py-3 px-6">Prediksi Market Fit</td>
-                  <td className="py-3 px-6 text-center">✔️</td>
-                  <td className="py-3 px-6 text-center">ℹ️</td>
-                  <td className="py-3 px-6 text-center">❌</td>
+                <tr className="hover:bg-gray-50/50 transition">
+                  <td className="pl-10 pr-8 py-8 text-zinc-900 text-base font-semibold font-inter">
+                    Prediksi Market Fit
+                  </td>
+                  <td className="pl-14">
+                    <div className="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-bold">
+                      <img src={trueIcon} alt="True Icon" className="w-full h-full object-contain" />
+                    </div>
+                  </td>
+                  <td className="pl-14">
+                    <div className="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-bold">
+                      <img src={infoIcon} alt="Info Icon" className="w-full h-full object-contain" />
+                    </div>
+                  </td>
+                  <td className="pl-14">
+                    <div className="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-bold">
+                      <img src={falseIcon} alt="False Icon" className="w-full h-full object-contain" />
+                    </div>
+                  </td>
                 </tr>
-                <tr className="border-t">
-                  <td className="py-3 px-6">Alasan Logis (Reasoning)</td>
-                  <td className="py-3 px-6 text-center">✔️</td>
-                  <td className="py-3 px-6 text-center">❌</td>
-                  <td className="py-3 px-6 text-center">❌</td>
+                <tr className="hover:bg-gray-50/50 transition">
+                  <td className="pl-10 pr-8 py-8 text-zinc-900 text-base font-semibold font-inter">
+                    Alasan Logis (Reasoning)
+                  </td>
+                  <td className="pl-14">
+                    <div className="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-bold">
+                      <img src={trueIcon} alt="True Icon" className="w-full h-full object-contain" />
+                    </div>
+                  </td>
+                  <td className="pl-14">
+                    <div className="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-bold">
+                      <img src={falseIcon} alt="False Icon" className="w-full h-full object-contain" />
+                    </div>
+                  </td>
+                  <td className="pl-14">
+                    <div className="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-bold">
+                      <img src={falseIcon} alt="False Icon" className="w-full h-full object-contain" />
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -119,20 +313,27 @@ const Landing: React.FC = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-blue-600 text-white text-center">
-        <h2 className="text-3xl font-bold mb-4">Siap Temukan Karir Idamanmu?</h2>
-        <p className="mb-6">Jangan biarkan potensimu terbuang di tempat yang salah. Mulai analisis sekarang secara gratis.</p>
-        <div className="flex justify-center gap-4">
-          <button className="bg-white text-blue-600 px-6 py-2 rounded hover:bg-gray-100 transition">
-            Analyze My Profile
-          </button>
-          <button className="border border-white px-6 py-2 rounded hover:bg-white hover:text-blue-600 transition">
-            Hubungi Ahli Karir
-          </button>
+      <section className="w-full py-24 px-8 bg-gray-50 flex flex-col justify-start items-center overflow-hidden">
+        <div className="container mx-auto max-w-304">
+          
+          <div className="w-full bg-blue-600 rounded-[40px] px-6 py-16 md:py-20 flex flex-col justify-center items-center text-center shadow-xl shadow-blue-900/10 border border-blue-500/20">
+            <h2 className="font-manrope text-white text-3xl md:text-5xl font-extrabold tracking-tight mb-4 max-w-2xl leading-tight">
+              Siap Temukan Karir Idamanmu?
+            </h2>
+            <p className="font-inter text-blue-100 text-sm md:text-base font-normal max-w-xl leading-relaxed mb-10 opacity-90">
+              Jangan biarkan potensimu terbuang di tempat yang salah. Mulai analisis sekarang secara gratis.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full">
+              <button className="font-inter bg-white text-blue-800 font-bold px-7 py-3.5 rounded-xl hover:bg-blue-50 transition-all duration-200 shadow-sm w-full sm:w-auto text-sm tracking-wide cursor-pointer">
+                Analyze My Profile
+              </button>
+              <button className="font-inter border border-white/30 bg-blue-700/20 text-white font-bold px-7 py-3.5 rounded-xl hover:bg-white/10 transition-all duration-200 w-full sm:w-auto text-sm tracking-wide cursor-pointer">
+                Hubungi Ahli Karir
+              </button>
+            </div>
+          </div>
         </div>
       </section>
     </div>
   );
-};
-
-export default Landing;
+}
