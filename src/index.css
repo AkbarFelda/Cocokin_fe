@@ -28,7 +28,6 @@
   --font-inter: 'Inter', system-ui, sans-serif;
   --font-inter-italic: 'Inter-Italic', system-ui, sans-serif;
   --font-manrope: 'Manrope', system-ui, sans-serif;
-  font-family: var(--font-inter);
   --color-primary-lighter: #9db9f6;
   --color-primary-lighter-hover: #89abf4;
   --color-primary-lighter-active: #719af2;
