@@ -1,17 +1,38 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import { logoCocokin, supportIcon } from "../assets/icons";
 import { waveTexture } from "../assets/images";
 import PasswordField from "../components/Auth/PasswordField";
+import { authService } from "../services/auth";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login data submitted:", { email, password, rememberMe });
+    setErrorMsg("");
+
+    try {
+      const result = await authService.login({ email, password });
+
+      // console.log("Login sukses weh! Token didapat:", result.data);
+      console.log("Login sukses weh! Token didapat");
+      localStorage.setItem("accessToken", result.data.accessToken);
+      localStorage.setItem("refreshToken", result.data.refreshToken);
+      navigate("/dashboard");
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const message =
+          err.response?.data?.message || "Email atau password salah.";
+        setErrorMsg(message);
+      } else {
+        setErrorMsg("Terjadi kesalahan sistem, coba lagi nanti.");
+      }
+    }
   };
 
   return (
@@ -28,6 +49,7 @@ export default function Login() {
         </div>
         <div className="absolute -left-20 -top-20 w-80 h-80 bg-blue-600 rounded-full blur-3xl opacity-20 pointer-events-none z-10"></div>
         <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-blue-600 rounded-full blur-3xl opacity-20 pointer-events-none z-10"></div>
+
         <div className="relative z-20 w-full max-w-xl flex flex-col justify-start items-start gap-6">
           <div className="self-stretch inline-flex justify-start items-center gap-3">
             <div className="w-6 h-6 flex items-center justify-center">
@@ -90,7 +112,7 @@ export default function Login() {
                   12k+
                 </div>
               </div>
-              <div className="flex flex-col justify-start items-start">
+              <div className="self-stretch flex flex-col justify-start items-start">
                 <div className="justify-center text-violet-300 text-sm font-semibold font-inter uppercase leading-5 tracking-wider">
                   PROFESSIONALS
                 </div>
@@ -136,30 +158,33 @@ export default function Login() {
             </div>
 
             <div className="flex flex-col gap-2">
+              <div className="flex justify-between items-center w-full">
+                <label className="text-sm font-semibold text-zinc-800 font-inter">
+                  PASSWORD
+                </label>
+                <Link
+                  to="/forgot-password"
+                  className="text-sm font-semibold text-blue-700 hover:underline font-inter"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
+
               <PasswordField
-                label="PASSWORD"
+                label=""
                 placeholder="•••••••••••••"
                 value={password}
                 onChange={setPassword}
                 required
+                variant="box"
               />
             </div>
 
-            <div className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                id="rememberMe"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                className="w-5 h-5 rounded-md border-gray-200 text-blue-600 focus:ring-blue-600 transition"
-              />
-              <label
-                htmlFor="rememberMe"
-                className="text-sm font-normal text-zinc-700 font-inter"
-              >
-                Remember this device for 30 days
-              </label>
-            </div>
+            {errorMsg && (
+              <div className="w-full p-4 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl font-inter text-left animate-fade-in">
+                {errorMsg}
+              </div>
+            )}
 
             <button
               type="submit"

@@ -1,17 +1,38 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import { markupIcon } from "../assets/icons";
 import { visualTexture } from "../assets/images";
 import PasswordField from "../components/Auth/PasswordField";
+import { authService } from "../services/auth";
 
 export default function Register() {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Register data submitted:", { name, email, password });
+    setErrorMsg("");
+    try {
+      const result = await authService.register({ name, email, password });
+
+      console.log("Register Sukses, ID User:", result.data.id);
+      alert("Akun berhasil dibuat! Silakan login menggunakan akun baru kamu.");
+
+      navigate("/login");
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const message =
+          err.response?.data?.message ||
+          "Gagal mendaftar, periksa kembali data kamu.";
+        setErrorMsg(message);
+      } else {
+        setErrorMsg("Terjadi kesalahan sistem yang tidak diketahui.");
+      }
+    }
   };
 
   return (
@@ -87,9 +108,6 @@ export default function Register() {
         </div>
       </div>
 
-      {/* ==============================================================
-         SISI KANAN: Form Register Area
-         ============================================================== */}
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center py-12 md:py-20 px-6 sm:px-16 bg-slate-50 relative">
         <div className="w-full max-w-96 flex flex-col justify-start items-start gap-8">
           <div className="self-stretch flex flex-col justify-start items-start gap-2">
@@ -105,11 +123,16 @@ export default function Register() {
             </div>
           </div>
 
+          {errorMsg && (
+            <div className="w-full p-4 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl font-inter">
+              {errorMsg}
+            </div>
+          )}
+
           <form
             onSubmit={handleSubmit}
             className="self-stretch flex flex-col justify-start items-start gap-6"
           >
-            {/* Input Nama */}
             <div className="self-stretch flex flex-col justify-start items-start gap-1">
               <label className="self-stretch justify-center text-gray-700 text-sm font-semibold font-inter leading-5">
                 Full Name
@@ -126,7 +149,6 @@ export default function Register() {
               </div>
             </div>
 
-            {/* Input Email */}
             <div className="self-stretch flex flex-col justify-start items-start gap-1">
               <label className="self-stretch justify-center text-gray-700 text-sm font-semibold font-inter leading-5">
                 Email Address
@@ -143,7 +165,6 @@ export default function Register() {
               </div>
             </div>
 
-            {/* 🟢 REUSABLE PASSWORD COMPONENT (Sangat Bersih) 🟢 */}
             <PasswordField
               label="Password"
               placeholder="••••••••"
@@ -174,10 +195,22 @@ export default function Register() {
               className="self-stretch py-4 bg-gray-100 hover:bg-gray-200 rounded-lg flex justify-center items-center gap-3 transition duration-200 cursor-pointer"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
-                <path fill="#EA4335" d="M12 5.04c1.64 0 3.12.56 4.28 1.67l3.2-3.2C17.52 1.58 14.97 1 12 1 7.35 1 3.4 3.65 1.5 7.5l3.86 3c.9-2.7 3.4-4.46 6.64-4.46z" />
-                <path fill="#4285F4" d="M23.49 12.27c0-.8-.07-1.56-.2-2.27H12v4.51h6.44c-.28 1.47-1.11 2.71-2.36 3.55l3.66 2.84c2.14-1.97 3.38-4.88 3.38-8.63z" />
-                <path fill="#FBBC05" d="M5.36 14.5c-.24-.72-.38-1.49-.38-2.3s.14-1.58.38-2.3L1.5 6.9C.54 8.84 0 11.02 0 12.3s.54 3.46 1.5 5.4l3.86-3z" />
-                <path fill="#34A853" d="M12 23c3.24 0 5.97-1.08 7.96-2.91l-3.66-2.84c-1.01.68-2.31 1.09-4.3 1.09-3.24 0-5.74-1.76-6.64-4.46l-3.86 3C3.4 20.35 7.35 23 12 23z" />
+                <path
+                  fill="#EA4335"
+                  d="M12 5.04c1.64 0 3.12.56 4.28 1.67l3.2-3.2C17.52 1.58 14.97 1 12 1 7.35 1 3.4 3.65 1.5 7.5l3.86 3c.9-2.7 3.4-4.46 6.64-4.46z"
+                />
+                <path
+                  fill="#4285F4"
+                  d="M23.49 12.27c0-.8-.07-1.56-.2-2.27H12v4.51h6.44c-.28 1.47-1.11 2.71-2.36 3.55l3.66 2.84c2.14-1.97 3.38-4.88 3.38-8.63z"
+                />
+                <path
+                  fill="#FBBC05"
+                  d="M5.36 14.5c-.24-.72-.38-1.49-.38-2.3s.14-1.58.38-2.3L1.5 6.9C.54 8.84 0 11.02 0 12.3s.54 3.46 1.5 5.4l3.86-3z"
+                />
+                <path
+                  fill="#34A853"
+                  d="M12 23c3.24 0 5.97-1.08 7.96-2.91l-3.66-2.84c-1.01.68-2.31 1.09-4.3 1.09-3.24 0-5.74-1.76-6.64-4.46l-3.86 3C3.4 20.35 7.35 23 12 23z"
+                />
               </svg>
               <span className="text-center justify-center text-zinc-900 text-sm font-semibold font-inter leading-5">
                 Google
@@ -189,7 +222,10 @@ export default function Register() {
             <span className="text-gray-700 font-normal">
               Already have an account?
             </span>
-            <Link to="/login" className="text-blue-800 font-bold hover:underline">
+            <Link
+              to="/login"
+              className="text-blue-800 font-bold hover:underline"
+            >
               Log In
             </Link>
           </div>
