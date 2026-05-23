@@ -5,5 +5,8 @@ import akurasiIcon from "./akurasi.svg";
 import trueIcon from "./true.svg";
 import falseIcon from "./false.svg";
 import infoIcon from "./info.svg";
+import logoCocokin from "./logo.svg";
+import supportIcon from "./support.svg";
+import markupIcon from "./markup.svg";
 
-export { icon1, icon2, icon3, akurasiIcon, trueIcon, falseIcon, infoIcon };
+export { icon1, icon2, icon3, akurasiIcon, trueIcon, falseIcon, infoIcon, logoCocokin, supportIcon, markupIcon };

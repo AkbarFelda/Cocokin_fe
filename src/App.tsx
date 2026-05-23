@@ -6,6 +6,8 @@ import Company from "./pages/LandingPage/Company";
 import Product from "./pages/LandingPage/Product";
 import Pricing from "./pages/LandingPage/Pricing";
 import Resources from "./pages/LandingPage/Resources";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 const App: React.FC = () => {
   return (
     <Router>
@@ -18,9 +20,8 @@ const App: React.FC = () => {
           <Route path="/resources" element={<Resources />} />
         </Route>
 
-        {/* Halaman lain
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} /> */}
+        <Route path="/register" element={<Register />} />
 
         {/* fallback */}
         {/* <Route path="*" element={<div>Page not found</div>} /> */}
