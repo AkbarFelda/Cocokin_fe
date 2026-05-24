@@ -1,5 +1,5 @@
 import apiClient from "./apiClient";
-import type { LoginPayload, RegisterPayload, LoginResponse ,RegisterResponse } from "../types/auth"; 
+import type { LoginPayload, RegisterPayload, LoginResponse ,RegisterResponse, ForgotPasswordResponse, ForgotPasswordPayload } from "../types/auth"; 
  
 
 export const authService = {
@@ -12,6 +12,12 @@ export const authService = {
   // 2. Fungsi API untuk Register
   register: async (payload: RegisterPayload): Promise<RegisterResponse> => {
     const response = await apiClient.post<RegisterResponse>("/register", payload);
+    return response.data;
+  },
+
+  // 3. Fungsi API untuk Forgot Password
+  forgotPassword: async (payload: ForgotPasswordPayload): Promise<ForgotPasswordResponse> => {
+    const response = await apiClient.post<ForgotPasswordResponse>("/forgot-password", payload);
     return response.data;
   },
 };

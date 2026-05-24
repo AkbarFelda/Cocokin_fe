@@ -8,6 +8,7 @@ import Pricing from "./pages/LandingPage/Pricing";
 import Resources from "./pages/LandingPage/Resources";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
 const App: React.FC = () => {
   return (
     <Router>
@@ -22,6 +23,7 @@ const App: React.FC = () => {
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
 
         {/* fallback */}
         {/* <Route path="*" element={<div>Page not found</div>} /> */}
