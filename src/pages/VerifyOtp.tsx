@@ -28,14 +28,12 @@ export default function VerifyOtp() {
     return () => clearInterval(timer);
   }, [timeLeft, isTimerActive]);
 
-  // 🟢 3. Helper untuk Mengubah Detik Menjadi Format Menit:Detik (MM:SS)
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
 
-  // 🟢 4. Fungsi Kirim Ulang OTP (Resend) Memanfaatkan API ForgotPassword
   const handleResendOtp = async () => {
     setErrorMsg("");
     setSuccessMsg("");
@@ -58,7 +56,6 @@ export default function VerifyOtp() {
     }
   };
 
-  // 🟢 5. Handler Submit form untuk hit API Verify OTP
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg("");
@@ -66,7 +63,6 @@ export default function VerifyOtp() {
     setIsLoading(true);
 
     try {
-      // Hit API /verify-otp sesuai spesifikasi Postman kamu weh
       const result = await authService.verifyOtp({
         email: savedEmail,
         otp,
@@ -91,9 +87,6 @@ export default function VerifyOtp() {
 
   return (
     <div className="min-h-screen w-full flex font-inter bg-white antialiased">
-      {/* =============================================================
-         SISI KIRI: Branding Visual & Security Banner
-         ============================================================= */}
       <div className="hidden md:flex md:w-1/2 relative flex-col justify-center items-start p-16 overflow-hidden">
         <div className="absolute inset-0 bg-blue-800 opacity-100 z-0">
           <div className="absolute inset-0 bg-linear-to-b from-blue-700 to-blue-900">
@@ -139,7 +132,6 @@ export default function VerifyOtp() {
             </div>
           </div>
 
-          {/* Bento Box: Secure Recovery */}
           <div className="self-stretch mt-2 p-6 bg-white/5 rounded-lg outline -outline-offset-1 outline-white/10 backdrop-blur-[6px] inline-flex justify-start items-start gap-4">
             <div className="p-3 bg-white/10 rounded-xs inline-flex items-center justify-center text-white text-xl w-11 h-11 shrink-0">
               <FontAwesomeIcon icon={faShieldHalved} />
@@ -162,9 +154,6 @@ export default function VerifyOtp() {
         </div>
       </div>
 
-      {/* ==============================================================
-         SISI KANAN: Form Input OTP Area (Gaya Box Abu-Abu Premium)
-         ============================================================== */}
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center py-12 md:py-20 px-6 sm:px-16 bg-slate-50 relative">
         <div className="w-full max-w-96 flex flex-col justify-start items-start gap-8">
           <div className="self-stretch flex flex-col justify-start items-start gap-2">
@@ -176,7 +165,6 @@ export default function VerifyOtp() {
             </div>
           </div>
 
-          {/* Render Alert Pesan Error / Sukses */}
           {errorMsg && (
             <div className="w-full p-4 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl font-inter text-left">
               {errorMsg}
@@ -188,7 +176,6 @@ export default function VerifyOtp() {
             </div>
           )}
 
-          {/* Form Utama */}
           <form onSubmit={handleSubmit} className="self-stretch flex flex-col gap-6 w-full">
             <div className="self-stretch flex flex-col justify-start items-start gap-1">
               <label className="self-stretch justify-center text-gray-700 text-sm font-semibold font-inter leading-5">
@@ -199,14 +186,13 @@ export default function VerifyOtp() {
                 placeholder="0 0 0 0 0 0"
                 maxLength={6}
                 value={otp}
-                onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))} // Hanya mengizinkan angka saja
+                onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))} 
                 required
                 disabled={isLoading || timeLeft === 0}
                 className="w-full px-4 py-4 bg-zinc-200 text-xl font-bold tracking-widest text-center text-zinc-800 placeholder:text-gray-400 placeholder:tracking-normal rounded-sm border-none outline-hidden focus:ring-2 focus:ring-blue-600 focus:bg-zinc-100/80 transition duration-200 disabled:opacity-50"
               />
             </div>
 
-            {/* Countdown Area */}
             <div className="flex justify-between items-center text-sm font-inter px-1 w-full">
               {timeLeft > 0 ? (
                 <span className="text-gray-500 font-normal">
@@ -239,7 +225,6 @@ export default function VerifyOtp() {
             </button>
           </form>
 
-          {/* Back to Forgot Password */}
           <div className="self-stretch flex justify-center items-center gap-1.5 text-sm font-inter">
             <span className="text-gray-700 font-normal">
               Wrong email address?

@@ -13,8 +13,6 @@ export default function ResetPassword() {
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  // Ambil email yang mengawali proses forgot password dari localStorage
   const savedEmail = localStorage.getItem("resetEmail") || "";
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -22,7 +20,6 @@ export default function ResetPassword() {
     setErrorMsg("");
     setSuccessMsg("");
 
-    // 🔒 Validasi kecocokan password di frontend sebelum hit API
     if (password !== confirmPassword) {
       setErrorMsg("Konfirmasi password tidak cocok weh, periksa kembali.");
       return;
@@ -31,7 +28,6 @@ export default function ResetPassword() {
     setIsLoading(true);
 
     try {
-      // Hit API resetPassword terpusat yang sudah kita daftarkan di authService
       const result = await authService.resetPassword({
         email: savedEmail,
         password,
@@ -39,10 +35,8 @@ export default function ResetPassword() {
 
       setSuccessMsg(result.message || "Password berhasil diperbarui!");
       
-      // Hapusan jejak email di localStorage setelah seluruh alur selesai bersih
       localStorage.removeItem("resetEmail");
 
-      // Jeda 2 detik biar user bahagia lihat alert sukses, lalu lempar ke /login
       setTimeout(() => {
         navigate("/login");
       }, 2000);
@@ -105,9 +99,6 @@ export default function ResetPassword() {
         </div>
       </div>
 
-      {/* ==============================================================
-         SISI KANAN: Form Reset Password Input Area (Gaya Box Premium)
-         ============================================================== */}
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center py-12 md:py-20 px-6 sm:px-16 bg-slate-50 relative">
         <div className="w-full max-w-96 flex flex-col justify-start items-start gap-8">
           <div className="self-stretch flex flex-col justify-start items-start gap-2">
@@ -119,7 +110,6 @@ export default function ResetPassword() {
             </div>
           </div>
 
-          {/* Render Alert Pesan Error / Sukses */}
           {errorMsg && (
             <div className="w-full p-4 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl font-inter text-left">
               {errorMsg}
@@ -131,9 +121,7 @@ export default function ResetPassword() {
             </div>
           )}
 
-          {/* Form Utama */}
           <form onSubmit={handleSubmit} className="self-stretch flex flex-col gap-6 w-full">
-            {/* Input Password Baru (Pakai Reusable Component) */}
             <div className="flex flex-col gap-2 w-full">
               <PasswordField
                 label="NEW PASSWORD"
@@ -145,7 +133,6 @@ export default function ResetPassword() {
               />
             </div>
 
-            {/* Input Konfirmasi Password Baru */}
             <div className="flex flex-col gap-2 w-full">
               <PasswordField
                 label="CONFIRM NEW PASSWORD"
@@ -166,7 +153,6 @@ export default function ResetPassword() {
             </button>
           </form>
 
-          {/* Cancel Navigation */}
           <div className="self-stretch flex justify-center items-center gap-1.5 text-sm font-inter">
             <Link
               to="/login"
