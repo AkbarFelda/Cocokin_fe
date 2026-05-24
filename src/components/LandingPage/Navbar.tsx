@@ -32,16 +32,16 @@ export default function Navbar() {
             isOpen ? "flex" : "hidden"
           } absolute md:relative top-16.25 md:top-0 left-0 w-full md:w-auto bg-white md:bg-transparent flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 p-6 md:p-0 shadow-md md:shadow-none border-b border-gray-100 md:border-none font-manrope font-semibold text-secondary-normal text-base md:text-sm md:flex transition-all duration-300 ease-in-out z-40`}
         >
-          <a href="#product" className="hover:text-blue-600 transition" onClick={() => setIsOpen(false)}>
+          <a href="/product" className="hover:text-blue-600 transition" onClick={() => setIsOpen(false)}>
             Product
           </a>
-          <a href="#pricing" className="hover:text-blue-600 transition" onClick={() => setIsOpen(false)}>
+          <a href="/pricing" className="hover:text-blue-600 transition" onClick={() => setIsOpen(false)}>
             Pricing
           </a>
-          <a href="#resources" className="hover:text-blue-600 transition" onClick={() => setIsOpen(false)}>
+          <a href="/resources" className="hover:text-blue-600 transition" onClick={() => setIsOpen(false)}>
             Resources
           </a>
-          <a href="#company" className="hover:text-blue-600 transition" onClick={() => setIsOpen(false)}>
+          <a href="/company" className="hover:text-blue-600 transition" onClick={() => setIsOpen(false)}>
             Company
           </a>
           
