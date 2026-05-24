@@ -2,15 +2,15 @@
 
 @font-face {
   font-family: 'Inter';
-  src: url('./assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+  src: url('./assets/fonts/Inter-VariableFont_opsz\,wght.ttf') format('truetype');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Inter';
-  src: url('./assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+  font-family: 'Inter-Italic';
+  src: url('./assets/fonts/Inter-Italic-VariableFont_opsz\,wght.ttf') format('truetype');
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
@@ -24,9 +24,13 @@
   font-display: swap;
 }
 
-:root {
+@theme{
   --font-inter: 'Inter', system-ui, sans-serif;
+  --font-inter-italic: 'Inter-Italic', system-ui, sans-serif;
   --font-manrope: 'Manrope', system-ui, sans-serif;
+}
+
+:root {
   --color-primary-lighter: #9db9f6;
   --color-primary-lighter-hover: #89abf4;
   --color-primary-lighter-active: #719af2;
