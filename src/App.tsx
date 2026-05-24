@@ -9,6 +9,8 @@ import Resources from "./pages/LandingPage/Resources";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
+import VerifyOtp from "./pages/VerifyOtp";
+import ResetPassword from "./pages/ResetPassword";
 const App: React.FC = () => {
   return (
     <Router>
@@ -24,6 +26,8 @@ const App: React.FC = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/verify-otp" element={<VerifyOtp />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         {/* fallback */}
         {/* <Route path="*" element={<div>Page not found</div>} /> */}

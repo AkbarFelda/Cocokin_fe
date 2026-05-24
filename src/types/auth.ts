@@ -13,6 +13,16 @@ export interface ForgotPasswordPayload {
   email: string;
 }
 
+export interface VerifyOtpPayload {
+  email: string;
+  otp: string;
+}
+
+export interface ResetPasswordPayload {
+  email: string; 
+  password?: string;
+}
+
 export interface RegisterResponse {
   code: number;
   status: string;
@@ -33,6 +43,18 @@ export interface LoginResponse {
 }
 
 export interface ForgotPasswordResponse {
+  code: number;
+  status: string;
+  message: string;
+}
+
+export interface VerifyOtpResponse {
+  code: number;
+  status: string;
+  message: string;
+}
+
+export interface ResetPasswordResponse {
   code: number;
   status: string;
   message: string;

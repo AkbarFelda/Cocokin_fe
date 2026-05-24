@@ -1,5 +1,5 @@
 import apiClient from "./apiClient";
-import type { LoginPayload, RegisterPayload, LoginResponse ,RegisterResponse, ForgotPasswordResponse, ForgotPasswordPayload } from "../types/auth"; 
+import type { LoginPayload, RegisterPayload, LoginResponse ,RegisterResponse, ForgotPasswordResponse, ForgotPasswordPayload, VerifyOtpResponse, VerifyOtpPayload, ResetPasswordResponse } from "../types/auth"; 
  
 
 export const authService = {
@@ -20,4 +20,16 @@ export const authService = {
     const response = await apiClient.post<ForgotPasswordResponse>("/forgot-password", payload);
     return response.data;
   },
+
+  // 4. Fungsi API untuk Verify OTP
+  verifyOtp: async (payload: VerifyOtpPayload): Promise<VerifyOtpResponse> => {
+    const response = await apiClient.post<VerifyOtpResponse>("/verify-otp", payload);
+    return response.data;
+  },
+
+  // 5. Fungsi API untuk Reset Password
+  resetPassword: async (payload: { email: string; password: string }): Promise<ResetPasswordResponse> => {
+    const response = await apiClient.post<ResetPasswordResponse>("/reset-password", payload);
+    return response.data;
+  }
 };
