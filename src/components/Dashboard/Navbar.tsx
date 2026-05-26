@@ -76,7 +76,7 @@ export default function Navbar() {
             >
               <div className="flex flex-col justify-start items-end">
                 <span className="text-zinc-900 text-sm font-bold leading-tight">
-                  {user?.name || "Akbar Felda"}
+                  {user?.name}
                 </span>
                 <span className="text-gray-500 text-[10px] font-bold uppercase tracking-wider leading-none mt-1">
                   {user?.subscription_status || "FREE MEMBER"}
