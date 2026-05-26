@@ -1,6 +1,6 @@
 export interface LoginPayload {
   email: string;
-  password: string; 
+  password: string;
 }
 
 export interface RegisterPayload {
@@ -19,8 +19,22 @@ export interface VerifyOtpPayload {
 }
 
 export interface ResetPasswordPayload {
-  email: string; 
+  email: string;
   password?: string;
+}
+
+export interface ProfilePayload {
+  id: string;
+  profile_id: string;
+  name: string;
+  email: string;
+  bio: string | null;
+  location: string | null;
+  subscription_status: string;
+}
+
+export interface ProfilePhotoPayload {
+  photo_profile: string;
 }
 
 export interface RegisterResponse {
@@ -28,7 +42,7 @@ export interface RegisterResponse {
   status: string;
   message: string;
   data: {
-    id: string; 
+    id: string;
   };
 }
 
@@ -58,4 +72,27 @@ export interface ResetPasswordResponse {
   code: number;
   status: string;
   message: string;
+}
+
+export interface ProfileResponse {
+  code: number;
+  status: string;
+  message: string;
+  data: ProfilePayload;
+}
+
+export interface ProfilePhotoResponse {
+  code: number;
+  status: string;
+  message: string;
+  data: ProfilePhotoPayload;
+}
+
+export interface UpdateProfileResponse {
+  code: number;
+  status: string;
+  message: string;
+  data: {
+    id: string;
+  };
 }

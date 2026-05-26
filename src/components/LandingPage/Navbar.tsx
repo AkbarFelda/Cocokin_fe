@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -6,6 +6,8 @@ import {
   faRightFromBracket,
   faColumns,
 } from "@fortawesome/free-solid-svg-icons";
+import { authService } from "../../services/auth";
+import type { ProfilePayload, ProfilePhotoPayload } from "../../types/auth";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -15,6 +17,20 @@ export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     () => !!localStorage.getItem("accessToken"),
   );
+  const [user, setUser] = useState<ProfilePayload | null>(null);
+  const [profilePhoto, setProfilePhoto] = useState<ProfilePhotoPayload | null>(
+    null,
+  );
+  const handleLogout = useCallback(() => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    setIsLoggedIn(false);
+    setUser(null);
+    setProfilePhoto(null);
+    setIsDropdownOpen(false);
+    setIsOpen(false);
+    navigate("/login");
+  }, [navigate]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -29,14 +45,26 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    setIsLoggedIn(false);
-    setIsDropdownOpen(false);
-    setIsOpen(false);
-    navigate("/login");
-  };
+  useEffect(() => {
+    if (isLoggedIn) {
+      const getProfileData = async () => {
+        try {
+          const [profileRes, photoRes] = await Promise.all([
+            authService.getProfile(),
+            authService.getProfilePhoto(),
+          ]);
+
+          setUser(profileRes.data);
+          setProfilePhoto(photoRes.data);
+        } catch (error) {
+          console.error("Gagal mendapatkan data profil atau foto user:", error);
+          handleLogout();
+        }
+      };
+
+      getProfileData();
+    }
+  }, [isLoggedIn, handleLogout]);
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `transition duration-200 hover:text-blue-600 ${
@@ -44,6 +72,8 @@ export default function Navbar() {
         ? "text-blue-800 border-b-2 border-blue-800 pb-1"
         : "text-slate-600"
     }`;
+
+  const userAvatarUrl = profilePhoto?.photo_profile;
 
   return (
     <header className="bg-white shadow-xs sticky top-0 z-50">
@@ -104,9 +134,6 @@ export default function Navbar() {
           >
             Pricing
           </NavLink>
-          {/* <NavLink to="/resources" className={navLinkClass} onClick={() => setIsOpen(false)}>
-            Resources
-          </NavLink> */}
           <NavLink
             to="/company"
             className={navLinkClass}
@@ -135,21 +162,23 @@ export default function Navbar() {
               </>
             ) : (
               <div className="flex flex-col gap-2 w-full">
-                <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 rounded-xl w-full">
-                  <img
-                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop"
-                    alt="User Profile"
-                    className="w-10 h-10 rounded-full object-cover border border-gray-200"
-                  />
+                {/* <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 rounded-xl w-full">
+                  <div className="w-10 h-10 bg-blue-800/10 rounded-full outline -outline-offset-1 outline-blue-800/20 inline-flex flex-col justify-center items-start overflow-hidden shrink-0">
+                    <img
+                      src={userAvatarUrl}
+                      alt="User Profile"
+                      className="self-stretch flex-1 w-full h-full object-cover"
+                    />
+                  </div>
                   <div className="text-left">
                     <p className="text-sm font-bold text-zinc-900 leading-none">
-                      M. Akbar
+                      {user ? user.name : "Loading..."}
                     </p>
                     <span className="text-[11px] text-gray-500 font-medium font-inter">
-                      Premium Member
+                      {user ? user.subscription_status : "Loading..."}
                     </span>
                   </div>
-                </div>
+                </div> */}
                 <Link
                   to="/dashboard"
                   onClick={() => setIsOpen(false)}
@@ -197,7 +226,7 @@ export default function Navbar() {
               >
                 <div className="w-9 h-9 bg-blue-800/10 rounded-full outline -outline-offset-1 outline-blue-800/20 inline-flex flex-col justify-center items-start overflow-hidden shrink-0">
                   <img
-                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop"
+                    src={userAvatarUrl}
                     alt="User Profile"
                     className="self-stretch flex-1 w-full h-full object-cover"
                   />
@@ -205,7 +234,7 @@ export default function Navbar() {
 
                 <div className="text-left hidden lg:block">
                   <p className="text-xs font-bold text-zinc-900 leading-tight">
-                    M. Akbar
+                    {user ? user.name : "Loading..."}
                   </p>
                   <span className="text-[10px] text-gray-400 font-medium font-inter">
                     Premium User
