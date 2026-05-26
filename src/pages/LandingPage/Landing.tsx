@@ -5,7 +5,6 @@ export default function Landing() {
   return (
     <div className="font-inter text-gray-900 bg-white antialiased">
       
-      {/* Hero Section */}
       <section className="bg-gray-50 py-16">
         <div className="container mx-auto flex flex-col md:flex-row items-center gap-8 px-6">
           <div className="self-stretch inline-flex flex-col justify-start items-start gap-6 md:w-1/2">
@@ -16,12 +15,12 @@ export default function Landing() {
             </div>
             <div className="self-stretch flex flex-col justify-start items-start">
               <div className="self-stretch justify-center">
-                <span className="text-zinc-900 text-5xl md:text-7xl font-extrabold font-manrope leading-tight md:leading-18">
+                <span className="text-zinc-900 text-5xl md:text-7xl font-bold font-manrope leading-tight md:leading-18">
                   Tau kamu cocoknya
                   <br />
                   jadi apa dari{" "}
-                </span>
-                <span className="text-blue-800 text-5xl md:text-7xl font-extrabold font-manrope leading-tight">
+                </span>7
+                <span className="text-blue-800 text-5xl md:text-7xl font-bold font-manrope leading-tight">
                   skill &<br />
                   project nyata
                 </span>
@@ -43,7 +42,7 @@ export default function Landing() {
                   Analyze My Profile
                 </div>
               </div>
-              <div className="px-8 py-4 bg-gray-100 rounded-2xl inline-flex flex-col justify-center items-center cursor-pointer hover:bg-gray-200 transition">
+              <div onClick={() => document.getElementById("cara-kerja")?.scrollIntoView({ behavior: "smooth" })} className="px-8 py-4 bg-gray-100 rounded-2xl inline-flex flex-col justify-center items-center cursor-pointer hover:bg-gray-200 transition">
                 <div className="text-center justify-center text-gray-700 text-lg font-bold font-inter leading-7">
                   Lihat Cara Kerja
                 </div>
@@ -60,12 +59,11 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Bagian Bagaimana Cocokin Membantumu */}
-      <section className="w-full py-24 bg-gray-100 flex flex-col justify-start items-start">
+      <section id="cara-kerja" className="w-full py-24 bg-gray-100 flex flex-col justify-start items-start">
         <div className="container mx-auto px-6 flex flex-col justify-start items-start gap-16">
           <div className="self-stretch flex flex-col justify-start items-center gap-4">
             <div className="self-stretch flex flex-col justify-start items-center">
-              <div className="text-center justify-center text-zinc-900 text-4xl font-extrabold font-manrope leading-10">
+              <div className="text-center justify-center text-zinc-900 text-4xl font-bold font-manrope leading-10">
                 Bagaimana Cocokin Membantumu
               </div>
             </div>
@@ -90,8 +88,7 @@ export default function Landing() {
               </div>
               <div className="self-stretch flex flex-col justify-start items-start">
                 <div className="self-stretch justify-center text-gray-700 text-base font-normal font-inter leading-6">
-                  Unggah CV, LinkedIn PDF, atau link portfolio proyek yang
-                  pernah kamu kerjakan.
+                  Unggah CV berupa PDF, yang berisi pengalaman kerja, proyek, dan skill yang kamu miliki.
                 </div>
               </div>
             </div>
@@ -125,7 +122,7 @@ export default function Landing() {
               <div className="self-stretch flex flex-col justify-start items-start">
                 <div className="self-stretch justify-center text-gray-700 text-base font-normal font-inter leading-6">
                   Dapatkan laporan lengkap tentang role yang paling cocok,
-                  potensi gaji, dan daftar skill yang perlu dipelajari.
+                  daftar skill gap, dan langkah konkret untuk mencapai karir impianmu.
                 </div>
               </div>
             </div>
@@ -203,7 +200,7 @@ export default function Landing() {
       <section className="w-full py-24 px-8 bg-gray-100 flex flex-col justify-start items-start">
         <div className="container mx-auto max-w-7xl flex flex-col justify-start items-start gap-16">
           <div className="self-stretch flex flex-col justify-start items-center">
-            <h2 className="text-center justify-center text-zinc-900 text-4xl font-extrabold font-manrope leading-10">
+            <h2 className="text-center justify-center text-zinc-900 text-4xl font-bold font-manrope leading-10">
               Kenapa Pilih Cocokin?
             </h2>
           </div>
@@ -258,7 +255,7 @@ export default function Landing() {
                   </td>
                   <td className="pl-14 pr-8 py-8">
                     <div className="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-bold">
-                      <img src={trueIcon} alt="True Icon" className="w-full h-full object-contain" />
+                      <img src={falseIcon} alt="False Icon" className="w-full h-full object-contain" />
                     </div>
                   </td>
                   <td className="pl-14 pr-8 py-8">

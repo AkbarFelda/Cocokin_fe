@@ -14,11 +14,11 @@ export default function ProductLanding() {
           <div className="self-stretch inline-flex flex-col justify-start items-start gap-6 md:w-1/2">
             <div className="self-stretch flex flex-col justify-start items-start">
               <div className="self-stretch justify-center">
-                <span className="text-zinc-900 text-5xl md:text-7xl font-extrabold font-manrope leading-tight md:leading-18">
+                <span className="text-zinc-900 text-5xl md:text-7xl font-bold font-manrope leading-tight md:leading-18">
                   The Blueprints of
                   <br />
                 </span>
-                <span className="text-blue-800 text-5xl md:text-7xl font-extrabold font-manrope leading-tight">
+                <span className="text-blue-800 text-5xl md:text-7xl font-bold font-manrope leading-tight">
                   Professional
                   <br />
                   Evolution
