@@ -5,7 +5,7 @@ import Navbar from "../../components/LandingPage/Navbar";
 
 const LandingLayout: React.FC = () => {
   return (
-    <div className="font-sans">
+    <div className="font-inter">
       <Navbar />
       <Outlet />  
       <Footer />

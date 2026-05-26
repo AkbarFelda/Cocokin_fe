@@ -8,5 +8,6 @@ import infoIcon from "./info.svg";
 import logoCocokin from "./logo.svg";
 import supportIcon from "./support.svg";
 import markupIcon from "./markup.svg";
+import JangkaIcon from "./iconjan.svg";
 
-export { icon1, icon2, icon3, akurasiIcon, trueIcon, falseIcon, infoIcon, logoCocokin, supportIcon, markupIcon };
+export { icon1, icon2, icon3, akurasiIcon, trueIcon, falseIcon, infoIcon, logoCocokin, supportIcon, markupIcon, JangkaIcon };
