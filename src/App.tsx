@@ -11,6 +11,10 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import VerifyOtp from "./pages/VerifyOtp";
 import ResetPassword from "./pages/ResetPassword";
+import UserProfile from "./pages/UserProfile";
+import AnalyzeProfile from "./pages/AnalyzeProfile";
+import EditProfile from "./pages/Dashboard/EditProfile";
+import DashboardLayout from "./components/Dashboard/DashboardLayout";
 const App: React.FC = () => {
   return (
     <Router>
@@ -28,6 +32,12 @@ const App: React.FC = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+
+        <Route element ={<DashboardLayout />}>
+          <Route path="/dashboard" element={<AnalyzeProfile />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/profile/edit-profile" element={<EditProfile />} />
+        </Route>
 
         {/* fallback */}
         {/* <Route path="*" element={<div>Page not found</div>} /> */}
