@@ -9,6 +9,6 @@ import logoCocokin from "./logo.svg";
 import supportIcon from "./support.svg";
 import markupIcon from "./markup.svg";
 import JangkaIcon from "./iconjan.svg";
-import AI from "./AIIcon.svg";
+import AI from "./aiIcon.svg";
 
 export { icon1, icon2, icon3, akurasiIcon, trueIcon, falseIcon, infoIcon, logoCocokin, supportIcon, markupIcon, JangkaIcon, AI };
