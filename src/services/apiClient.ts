@@ -1,8 +1,9 @@
 import axios from "axios";
+import { BASE_URL } from "./apiConfig";
 
 const apiClient = axios.create({
-  baseURL: "https://cocokin-api.vercel.app",
-//   timeout: 10000, // Opsional: atur timeout untuk request
+  baseURL: BASE_URL,
+  //   timeout: 10000, // Opsional: atur timeout untuk request
   headers: {
     "Content-Type": "application/json",
   },
