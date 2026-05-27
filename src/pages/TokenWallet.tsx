@@ -1,5 +1,3 @@
-import React from 'react';
-
 const TokenWallet = () => {
   return (
     <div className="text-center p-10">
