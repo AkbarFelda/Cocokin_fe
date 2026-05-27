@@ -15,6 +15,10 @@ import UserProfile from "./pages/UserProfile";
 import AnalyzeProfile from "./pages/AnalyzeProfile";
 import EditProfile from "./pages/Dashboard/EditProfile";
 import DashboardLayout from "./components/Dashboard/DashboardLayout";
+import CareerDashboard from "./pages/CareerDashboard";
+import AnalysisLoading from "./pages/Dashboard/AnalysisLoading";
+import RoleDetail from "./pages/RoleDetail";
+import ProtectedRoute from "./components/Dashboard/ProtectedRoute";
 const App: React.FC = () => {
   return (
     <Router>
@@ -33,10 +37,16 @@ const App: React.FC = () => {
         <Route path="/verify-otp" element={<VerifyOtp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
-        <Route element ={<DashboardLayout />}>
-          <Route path="/dashboard" element={<AnalyzeProfile />} />
+        <Route element={<ProtectedRoute/>}>
+        <Route  element ={<DashboardLayout />}>
+          <Route path="/dashboard" element={<CareerDashboard />} />
+          {/* <Route path="/dashboard/analyze-profile" element={<AnalyzeProfile />} /> */}
+          <Route path="/dashboard/loading" element={<AnalysisLoading />} />
+          <Route path="/dashboard/result" element={<AnalyzeProfile />} />
+          <Route path="/dashboard/job-detail" element={<RoleDetail/>}/>
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/profile/edit-profile" element={<EditProfile />} />
+        </Route>
         </Route>
 
         {/* fallback */}
