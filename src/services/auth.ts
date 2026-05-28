@@ -17,19 +17,19 @@ export const authService = {
 
   // 3. Fungsi API untuk Forgot Password
   forgotPassword: async (payload: ForgotPasswordPayload): Promise<ForgotPasswordResponse> => {
-    const response = await apiClient.post<ForgotPasswordResponse>("/forgot-password", payload);
+    const response = await apiClient.post<ForgotPasswordResponse>("/password/forgot", payload);
     return response.data;
   },
 
   // 4. Fungsi API untuk Verify OTP
   verifyOtp: async (payload: VerifyOtpPayload): Promise<VerifyOtpResponse> => {
-    const response = await apiClient.post<VerifyOtpResponse>("/verify-otp", payload);
+    const response = await apiClient.post<VerifyOtpResponse>("/password/verify", payload);
     return response.data;
   },
 
   // 5. Fungsi API untuk Reset Password
   resetPassword: async (payload: { email: string; password: string }): Promise<ResetPasswordResponse> => {
-    const response = await apiClient.post<ResetPasswordResponse>("/reset-password", payload);
+    const response = await apiClient.post<ResetPasswordResponse>("/password/reset", payload);
     return response.data;
   },
 
