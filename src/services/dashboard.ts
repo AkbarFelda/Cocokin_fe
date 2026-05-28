@@ -1,5 +1,5 @@
 import apiClient from "./apiClient";
-import type { AnalysisResponse } from "../types/dashboard";
+import type { AnalysisResponse, HistoryDocumentsResponse } from "../types/dashboard";
 
 export const dashboardService = {
   uploadAndAnalyzeCV: async (file: File, targetRole: string): Promise<AnalysisResponse> => {
@@ -22,5 +22,13 @@ export const dashboardService = {
     return response.data;
   },
 
-  
+  getHistoryDocuments: async (): Promise<HistoryDocumentsResponse> => {
+    const response = await apiClient.get<HistoryDocumentsResponse>("/documents");
+    return response.data;
+  },
+
+  getAnalysisDetailByDocId: async (analysisId: string): Promise<AnalysisResponse> => {
+    const response = await apiClient.get<AnalysisResponse>(`/analysis/${analysisId}`);
+    return response.data;
+  },
 };

@@ -20,9 +20,10 @@ export interface RecommendationItem {
 
 export interface AnalysisData {
   id: string;
+  name: string;
   document_id: string;
   filename: string;
-  extracted_text_preview?: string | null;
+  extracted_text_preview?: string;
   target_role: string;
   industry_sector_cand: string;
   cand_tech_skills: string[];
@@ -50,4 +51,21 @@ export interface AnalysisResponse {
     };
     analysis: AnalysisData;
   };
+}
+
+export interface HistoryDocumentItem {
+  id: string;
+  file_name: string;
+  file_url: string;
+  size: number;
+  mime_type: string;
+  target_role: string | null;
+  analysis_id: string;
+}
+
+export interface HistoryDocumentsResponse {
+  code: number;
+  status: string;
+  message: string;
+  data: HistoryDocumentItem[];
 }

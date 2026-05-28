@@ -27,7 +27,12 @@ export default function Navbar() {
     loadNavbarData();
   }, []);
 
-  const isDetailPage = location.pathname.includes("edit-profile");
+  const stateData = location.state as Record<string, unknown> | null;
+  const isFromHistory = stateData?.fromHistory === true;
+  const shouldShowBackButton = 
+    location.pathname.includes("edit-profile") || 
+    (location.pathname.includes("result") && isFromHistory) ||
+    (location.pathname.includes("job-detail"))
 
   const getInitials = (nameString: string | undefined) => {
     if (!nameString) return "U";
@@ -38,65 +43,63 @@ export default function Navbar() {
     return nameString.slice(0, 2).toUpperCase();
   };
 
+  const handleBackNavigation = () => {
+    if (location.pathname.includes("result") && isFromHistory) {
+      navigate("/dashboard/profile");
+    } else {
+      navigate(-1);
+    }
+  };
+
   return (
     <div className="w-full bg-white/80 sticky top-0 z-40 backdrop-blur-md border-b border-gray-200/50 shadow-xs">
       <div className="container mx-auto max-w-8xl px-6 py-4 flex justify-between items-center">
-        {isDetailPage ? (
-          /* =============================================================
-             MODE DETAIL: Tombol Back Minimalis
-             ============================================================= */
-          <button
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-3 text-blue-800 text-base font-bold cursor-pointer hover:opacity-80 transition select-none"
-          >
-            <FontAwesomeIcon icon={faArrowLeft} className="text-sm" />
-            <span>Back</span>
-          </button>
-        ) : (
-          /* =============================================================
-             MODE UTAMA: Hanya Branding & Profile (Tanpa Tab Tengah)
-             ============================================================= */
-          <>
-            {/* Kiri: Logo Brand Cocokin */}
-            <div className="flex justify-start items-center">
-              <Link
-                to="/dashboard"
-                className="flex justify-start items-center gap-3 group"
-              >
-                <span className="text-blue-800 text-xl font-bold font-manrope leading-none">
-                  Cocokin
-                </span>
-              </Link>
-            </div>
-
-            {/* Kanan: Profil Informasi User Dinamis dengan Foto */}
-            <Link
-              to="/profile"
-              className="flex justify-start items-center gap-3 text-right hover:opacity-90 transition"
+        <div className="flex justify-start items-center">
+          {shouldShowBackButton ? (
+            <button
+              onClick={handleBackNavigation}
+              className="flex items-center gap-3 text-blue-800 Richmond text-base font-bold cursor-pointer hover:opacity-80 transition select-none"
             >
-              <div className="flex flex-col justify-start items-end">
-                <span className="text-zinc-900 text-sm font-bold leading-tight">
-                  {user?.name}
-                </span>
-                <span className="text-gray-500 text-[10px] font-bold uppercase tracking-wider leading-none mt-1">
-                  {user?.subscription_status || "FREE MEMBER"}
-                </span>
-              </div>
-
-              <div className="w-10 h-10 bg-blue-800 text-white rounded-xl outline -outline-offset-2 outline-slate-50 flex justify-center items-center text-sm font-bold shadow-sm select-none shrink-0 overflow-hidden">
-                {userPhoto?.photo_profile ? (
-                  <img
-                    src={userPhoto.photo_profile}
-                    alt="User Avatar"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <span>{getInitials(user?.name)}</span>
-                )}
-              </div>
+              <FontAwesomeIcon icon={faArrowLeft} className="text-sm" />
+              <span>{location.pathname.includes("result") ? "Kembali ke Profil" : "Back"}</span>
+            </button>
+          ) : (
+            <Link
+              to="/dashboard"
+              className="flex justify-start items-center gap-3 group"
+            >
+              <span className="text-blue-800 text-xl font-bold font-manrope leading-none">
+                Cocokin
+              </span>
             </Link>
-          </>
-        )}
+          )}
+        </div>
+        <Link
+          to="/profile"
+          className="flex justify-start items-center gap-3 text-right hover:opacity-90 transition"
+        >
+          <div className="flex flex-col justify-start items-end">
+            <span className="text-zinc-900 text-sm font-bold leading-tight">
+              {user?.name}
+            </span>
+            <span className="text-gray-500 text-[10px] font-bold uppercase tracking-wider leading-none mt-1">
+              {user?.subscription_status || "FREE MEMBER"}
+            </span>
+          </div>
+
+          <div className="w-10 h-10 bg-blue-800 text-white rounded-xl outline -outline-offset-2 outline-slate-50 flex justify-center items-center text-sm font-bold shadow-sm select-none shrink-0 overflow-hidden">
+            {userPhoto?.photo_profile ? (
+              <img
+                src={userPhoto.photo_profile}
+                alt="User Avatar"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span>{getInitials(user?.name)}</span>
+            )}
+          </div>
+        </Link>
+
       </div>
     </div>
   );
