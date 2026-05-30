@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
@@ -6,9 +7,33 @@ import {
   faXmark,
   faChartPie,
   faFilePdf,
+  faCircleNotch,
 } from "@fortawesome/free-solid-svg-icons";
+import { paymentService } from "../../services/payment";
 
 export default function PricingContent() {
+  const navigate = useNavigate();
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const handleUpgradeClick = async () => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      setIsProcessing(true);
+      await paymentService.createPaymentSession();
+      navigate("/checkout-payment");
+    } catch (error) {
+      console.error("Gagal membuat sesi pembayaran:", error);
+      alert("Sistem sedang sibuk. Gagal menginisiasi pembayaran.");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   return (
     <div className="w-full bg-slate-50 font-inter antialiased flex flex-col">
       <section className="bg-white py-24 border-b border-gray-100">
@@ -78,7 +103,10 @@ export default function PricingContent() {
                 </ul>
               </div>
 
-              <button className="w-full py-4 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold rounded-xl transition cursor-pointer text-sm">
+              <button
+                onClick={() => navigate("/login")}
+                className="w-full py-4 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold rounded-xl transition cursor-pointer text-sm border-none outline-none"
+              >
                 Mulai Sekarang
               </button>
             </div>
@@ -132,12 +160,17 @@ export default function PricingContent() {
                 </ul>
               </div>
 
-              <Link
-                to="/register"
-                className="w-full py-4 bg-linear-to-r from-blue-800 to-blue-700 text-center text-white font-bold rounded-xl shadow-md hover:from-blue-900 transition text-sm"
+              <button
+                onClick={handleUpgradeClick}
+                disabled={isProcessing}
+                className="w-full py-4 bg-linear-to-r from-blue-800 to-blue-700 text-center text-white font-bold rounded-xl shadow-md hover:from-blue-900 transition flex justify-center items-center gap-2 text-sm cursor-pointer border-none outline-none disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Mulai Sekarang
-              </Link>
+                {isProcessing ? (
+                  <FontAwesomeIcon icon={faCircleNotch} className="animate-spin text-lg" />
+                ) : (
+                  "Mulai Sekarang"
+                )}
+              </button>
             </div>
           </div>
         </div>
@@ -198,8 +231,8 @@ export default function PricingContent() {
                 98% Success Rate
               </h4>
               <p className="text-white/80 text-sm font-normal leading-relaxed">
-                Pro users are 3x more likely to secure jobs in their
-                target industry within 30 days.
+                Pro users are 3x more likely to secure jobs in their target
+                industry within 30 days.
               </p>
             </div>
           </div>
@@ -222,12 +255,14 @@ export default function PricingContent() {
               </p>
 
               <div className="pt-4 flex flex-col sm:flex-row justify-center items-center gap-4 w-full">
-                <button className="px-8 py-3.5 bg-zinc-900 text-white font-bold text-sm rounded-lg hover:bg-zinc-800 transition cursor-pointer w-full sm:w-auto shadow-xs">
+                <a
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=support.cocokin@gmail.com&su=Talk%20to%20Advisor"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-8 py-3.5 bg-zinc-900 text-white font-bold text-sm rounded-lg hover:bg-zinc-800 transition cursor-pointer w-full sm:w-auto shadow-xs border-none outline-none inline-flex justify-center items-center no-underline"
+                >
                   Talk to Advisor
-                </button>
-                <button className="px-8 py-3.5 border-2 border-gray-300 text-zinc-900 font-bold text-sm rounded-lg hover:bg-gray-50 transition cursor-pointer w-full sm:w-auto">
-                  Read FAQs
-                </button>
+                </a>
               </div>
             </div>
           </div>

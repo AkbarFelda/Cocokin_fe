@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,20 +8,28 @@ import {
   faDownload,
   faChevronRight,
   faTools,
+  faCircleNotch,
 } from "@fortawesome/free-solid-svg-icons";
 import type { AnalysisData, RecommendationItem } from "../types/dashboard";
+import { dashboardService } from "../services/dashboard";
+import StatusDialog from "../components/StatusDialog";
 
 export default function AnalysisResult() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [isExporting, setIsExporting] = useState(false);
+  const [isErrorDialogOpen, setIsErrorDialogOpen] = useState(false);
+
   const stateData = location.state as Record<string, unknown> | null;
   const resultData = stateData?.resultData as
     | Record<string, unknown>
     | undefined;
+
   const analysis = useMemo(() => {
     const rawAnalysis = resultData?.analysis || resultData?.data || resultData;
     return rawAnalysis as AnalysisData | undefined;
   }, [resultData]);
+
   const profile = useMemo(() => {
     if (!analysis) return undefined;
     if ("extracted_profile" in analysis && analysis.extracted_profile) {
@@ -29,11 +37,14 @@ export default function AnalysisResult() {
     }
     return analysis;
   }, [analysis]);
+
   const recommendations = useMemo(() => {
     return (analysis?.recommendations || []) as RecommendationItem[];
   }, [analysis]);
+
   const filename = analysis?.filename;
   const targetIndustry = analysis?.industry_sector_cand || "Unknown Industry";
+  
   const candidateName = useMemo(() => {
     const rawText = analysis?.candidate_name || "";
     if (!rawText) return "Kandidat";
@@ -52,8 +63,47 @@ export default function AnalysisResult() {
 
   if (!analysis || recommendations.length === 0) return null;
 
+  const handleExportPDF = async () => {
+    const analysisId = analysis?.id;
+    if (!analysisId) {
+      setIsErrorDialogOpen(true);
+      return;
+    }
+
+    try {
+      setIsExporting(true);
+      const blobData = await dashboardService.exportDocumentByAnalysisId(analysisId);
+
+      const blobUrl = window.URL.createObjectURL(blobData);
+      const linkElement = document.createElement("a");
+      linkElement.href = blobUrl;
+      linkElement.setAttribute(
+        "download",
+        `Cocokin_Analysis_${candidateName.replace(/\s+/g, "_")}.pdf`
+      );
+      document.body.appendChild(linkElement);
+      linkElement.click();
+      document.body.removeChild(linkElement);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Gagal mengunduh dokumen ekspor PDF analisis:", error);
+      setIsErrorDialogOpen(true);
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <div className="w-full min-h-screen bg-slate-50 font-inter pb-16">
+      <StatusDialog
+        isOpen={isErrorDialogOpen}
+        variant="failed"
+        title="Ekspor PDF Gagal!"
+        description="Sistem gagal mengunduh dokumen laporan analisis. Pastikan riwayat berkas terdaftar valid di server."
+        buttonText="Mengerti"
+        onConfirm={() => setIsErrorDialogOpen(false)}
+      />
+
       <main className="max-w-7xl mx-auto px-4 md:px-8 mt-8 flex flex-col gap-8">
         <section className="w-full p-6 md:p-8 relative bg-white rounded-2xl border border-gray-100 shadow-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-6 overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-full bg-linear-to-l from-blue-700/5 to-transparent pointer-events-none"></div>
@@ -107,12 +157,25 @@ export default function AnalysisResult() {
             </div>
           </div>
 
-          <button className="w-full md:w-auto px-6 py-3 bg-blue-800 hover:bg-blue-700 text-white text-sm font-bold rounded-xl shadow-xs transition flex items-center justify-center gap-2 group cursor-pointer">
-            <FontAwesomeIcon
-              icon={faDownload}
-              className="text-xs group-hover:translate-y-0.5 transition-transform"
-            />
-            <span>Export Analysis</span>
+          <button
+            onClick={handleExportPDF}
+            disabled={isExporting}
+            className="w-full md:w-auto px-6 py-3 bg-blue-800 hover:bg-blue-700 text-white disabled:bg-gray-100 disabled:text-gray-400 text-sm font-bold rounded-xl shadow-xs transition flex items-center justify-center gap-2 group cursor-pointer border-none outline-none min-w-44"
+          >
+            {isExporting ? (
+              <FontAwesomeIcon
+                icon={faCircleNotch}
+                className="animate-spin text-xs"
+              />
+            ) : (
+              <>
+                <FontAwesomeIcon
+                  icon={faDownload}
+                  className="text-xs group-hover:translate-y-0.5 transition-transform"
+                />
+                <span>Export Analysis</span>
+              </>
+            )}
           </button>
         </section>
 
@@ -241,10 +304,11 @@ export default function AnalysisResult() {
                           jobData: job,
                           candidateName: candidateName,
                           candidateExpYears: profile?.experience_years ?? 0,
+                          analysisId: analysis?.id,
                         },
                       })
                     }
-                    className="px-5 py-2 bg-blue-50 hover:bg-blue-100 text-blue-800 text-xs font-bold rounded-xl transition flex items-center gap-1.5 cursor-pointer"
+                    className="px-5 py-2 bg-blue-50 hover:bg-blue-100 text-blue-800 text-xs font-bold rounded-xl transition flex items-center gap-1.5 cursor-pointer border-none outline-none"
                   >
                     <span>View Detail</span>
                     <FontAwesomeIcon

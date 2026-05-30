@@ -7,16 +7,18 @@ import {
   faCheckCircle,
   faCircleNotch,
   faCircle,
-  faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 import { dashboardService } from "../../services/dashboard";
+import StatusDialog from "../../components/StatusDialog";
 
 export default function AnalysisLoading() {
   const location = useLocation();
   const navigate = useNavigate();
   const [progress, setProgress] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isErrorDialogOpen, setIsErrorDialogOpen] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState("");
   const hasCalledAPI = useRef(false);
   const stateData = location.state as { file: File; role: string } | null;
   const file = stateData?.file;
@@ -40,7 +42,7 @@ export default function AnalysisLoading() {
         else setCurrentStep(3);
         return nextProgress;
       });
-    }, 80); 
+    }, 80);
     return () => clearInterval(progressInterval);
   }, [file]);
 
@@ -59,11 +61,18 @@ export default function AnalysisLoading() {
             navigate("/dashboard/result", { state: { resultData: response.data } });
           }, 800);
         } else {
-          setErrorMessage("Server merespons namun format data tidak sesuai.");
+          setDialogMessage(response?.message || "Server merespons namun format data tidak sesuai.");
+          setIsErrorDialogOpen(true);
         }
       } catch (error) {
         console.error("Gagal memproses data analisis:", error);
-        setErrorMessage("Gagal meramu data. Silakan coba unggah kembali berkas Anda.");
+        if (axios.isAxiosError(error)) {
+          const apiMessage = error.response?.data?.message || "Gagal meramu data. Silakan coba unggah kembali berkas Anda.";
+          setDialogMessage(apiMessage);
+        } else {
+          setDialogMessage("Gagal meramu data. Silakan coba unggah kembali berkas Anda.");
+        }
+        setIsErrorDialogOpen(true);
       }
     };
 
@@ -78,20 +87,17 @@ export default function AnalysisLoading() {
     { title: "Menghasilkan insight", desc: "Menghitung klaster akurasi final" },
   ];
 
-  if (errorMessage) {
-    return (
-      <div className="w-full min-h-[70vh] flex flex-col items-center justify-center gap-4 font-inter text-center px-6">
-        <FontAwesomeIcon icon={faExclamationTriangle} className="text-amber-500 text-4xl animate-bounce" />
-        <p className="text-gray-700 text-base font-medium">{errorMessage}</p>
-        <button onClick={() => navigate("/dashboard")} className="px-5 py-2.5 bg-blue-800 text-white rounded-xl text-sm font-bold mt-2 hover:bg-blue-700 transition">
-          Kembali ke Dashboard
-        </button>
-      </div>
-    );
-  }
-
   return (
     <div className="w-full min-h-[75vh] flex items-center justify-center p-6 relative font-inter text-gray-900">
+      <StatusDialog
+        isOpen={isErrorDialogOpen}
+        variant="failed"
+        title="Analisis Gagal!"
+        description={dialogMessage}
+        buttonText="Kembali ke Dashboard"
+        onConfirm={() => navigate("/dashboard")}
+      />
+
       <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-gray-100 p-8 md:p-12 flex flex-col items-center gap-8 relative z-10">
         <div className="text-center space-y-2">
           <h2 className="text-zinc-900 text-2xl md:text-3xl font-bold font-manrope tracking-tight">Menganalisis profil profesional Anda</h2>

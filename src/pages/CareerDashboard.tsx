@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // 🔑 Harus pakai ini untuk pindah page utuh
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCloudUploadAlt,
@@ -19,8 +19,8 @@ export default function DashboardOverview() {
     e.preventDefault();
     const file = e.dataTransfer.files?.[0];
     if (file && file.type === "application/pdf") {
-      if (file.size <= 5 * 1024 * 1024) setCvFile(file);
-      else alert("Ukuran file melebihi 5MB weh!");
+      if (file.size <= 10 * 1024 * 1024) setCvFile(file);
+      else alert("Ukuran file melebihi 10MB weh!");
     } else {
       alert("Format berkas wajib PDF!");
     }
@@ -28,13 +28,13 @@ export default function DashboardOverview() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file && file.size <= 5 * 1024 * 1024) setCvFile(file);
+    if (file && file.size <= 10 * 1024 * 1024) setCvFile(file);
   };
 
   const handleStartAnalysis = (e: React.FormEvent) => {
     e.preventDefault();
     if (!cvFile) {
-      alert("Harap unggah berkas CV Anda terlebih dahulu weh!");
+      alert("Harap unggah berkas CV Anda terlebih dahulu!");
       return;
     }
     console.log("Memicu perpindahan halaman ke /dashboard/loading membawa berkas:", cvFile.name);

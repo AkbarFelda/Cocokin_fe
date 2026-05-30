@@ -31,6 +31,8 @@ export interface ProfilePayload {
   bio: string | null;
   location: string | null;
   subscription_status: string;
+  subscription_expired_at: string | null;
+  analysis_tokens: number;
 }
 
 export interface ProfilePhotoPayload {
