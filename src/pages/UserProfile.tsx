@@ -14,6 +14,7 @@ import {
   faCircleNotch,
   faFolderOpen,
   faCoins,
+  faInfinity,
 } from "@fortawesome/free-solid-svg-icons";
 import { authService } from "../services/auth";
 import { dashboardService } from "../services/dashboard";
@@ -115,6 +116,7 @@ export default function Profile() {
     });
   };
 
+  const isPremium = user?.subscription_status?.toLowerCase().includes("premium");
   const currentTokens = user?.analysis_tokens;
 
   return (
@@ -234,7 +236,7 @@ export default function Profile() {
                       <FontAwesomeIcon
                         icon={faSearch}
                         className="absolute left-3.5 top-3 text-gray-400 text-sm"
-                      />
+                  />
                     </div>
                   </div>
 
@@ -365,9 +367,15 @@ export default function Profile() {
                     </div>
                   </div>
                   <div className="w-full flex justify-start items-baseline gap-2">
-                    <div className="justify-center text-white text-6xl font-black font-inter leading-none">
-                      {currentTokens}
-                    </div>
+                    {isPremium ? (
+                      <div className="text-white text-5xl font-black font-inter flex items-center h-15">
+                        <FontAwesomeIcon icon={faInfinity} />
+                      </div>
+                    ) : (
+                      <div className="justify-center text-white text-6xl font-black font-inter leading-none">
+                        {currentTokens}
+                      </div>
+                    )}
                     <div className="opacity-70 justify-center text-white text-lg font-bold font-inter">
                       Tokens
                     </div>
@@ -380,13 +388,12 @@ export default function Profile() {
                 <div className="w-full pt-10 flex flex-col justify-start items-start relative z-10">
                   <div className="w-full flex flex-col justify-start items-start gap-3">
                     <div className="text-left text-white text-sm font-bold font-inter">
-                      Expiration:{" "}
-                      {formatDate(user?.subscription_expired_at ?? null)}
+                      Expiration: {formatDate(user?.subscription_expired_at ?? null)}
                     </div>
                     <div className="text-left text-white text-xs font-medium font-inter opacity-80">
-                      {user?.subscription_status === "Free User"
-                        ? "Upgrade ke plan berbayar untuk mendapatkan analysis tokens tidak terbatas setiap bulannya!"
-                        : "Nikmati akses penuh ke semua fitur Cocokin dengan plan berbayar kami!"}
+                      {isPremium
+                        ? "Nikmati akses penuh tanpa batas ke semua fitur analisis CV premium Cocokin!"
+                        : "Upgrade ke plan berbayar untuk mendapatkan akses token tanpa batasan kuota setiap bulannya!"}
                     </div>
                     <button
                       onClick={handleNavigateToPricing}

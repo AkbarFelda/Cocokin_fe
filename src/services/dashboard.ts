@@ -27,8 +27,15 @@ export const dashboardService = {
     return response.data;
   },
 
-  getAnalysisDetailByDocId: async (analysisId: string): Promise<AnalysisResponse> => {
+  getAnalysisDetailByAnalysisId: async (analysisId: string): Promise<AnalysisResponse> => {
     const response = await apiClient.get<AnalysisResponse>(`/analysis/${analysisId}`);
     return response.data;
   },
+
+  exportDocumentByAnalysisId:async (analysisId: string): Promise<Blob> => {
+    const response = await apiClient.get(`/export/${analysisId}`, {
+      responseType: "blob",
+    });
+    return response.data;
+  }
 };

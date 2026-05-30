@@ -44,12 +44,13 @@ const App: React.FC = () => {
             <Route path="result" element={<AnalyzeProfile />} />
             <Route path="job-detail" element={<RoleDetail />} />
           </Route>
-        </Route>
-
-        <Route element={<DashboardLayout />}>
+          <Route element={<DashboardLayout />}>
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/profile/edit-profile" element={<EditProfile />} />
         </Route>
+        </Route>
+
+        
 
         {/* fallback */}
         {/* <Route path="*" element={<div>Page not found</div>} /> */}
