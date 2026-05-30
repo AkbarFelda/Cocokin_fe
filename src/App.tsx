@@ -19,6 +19,7 @@ import CareerDashboard from "./pages/CareerDashboard";
 import AnalysisLoading from "./pages/Dashboard/AnalysisLoading";
 import RoleDetail from "./pages/RoleDetail";
 import ProtectedRoute from "./components/Dashboard/ProtectedRoute";
+import CheckoutPayment from "./pages/CheckoutPayment";
 const App: React.FC = () => {
   return (
     <Router>
@@ -47,6 +48,7 @@ const App: React.FC = () => {
           <Route element={<DashboardLayout />}>
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/profile/edit-profile" element={<EditProfile />} />
+          <Route path="/checkout-payment" element={<CheckoutPayment/>} />
         </Route>
         </Route>
 

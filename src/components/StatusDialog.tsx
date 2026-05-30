@@ -1,8 +1,6 @@
-// src/components/Common/StatusDialog.tsx
-
 interface StatusDialogProps {
   isOpen: boolean;
-  variant?: "success" | "failed"; // 🟢 Ditambahkan tipe variant dinamis
+  variant?: "success" | "failed"; 
   title: string;
   description: string;
   buttonText: string;
@@ -11,7 +9,7 @@ interface StatusDialogProps {
 
 export default function StatusDialog({
   isOpen,
-  variant = "success", // Default-nya tetap success
+  variant = "success",
   title,
   description,
   buttonText,

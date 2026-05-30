@@ -72,7 +72,7 @@ export default function Profile() {
     setActionLoadingId(analysisId);
     try {
       const response =
-        await dashboardService.getAnalysisDetailByDocId(analysisId);
+        await dashboardService.getAnalysisDetailByAnalysisId(analysisId);
 
       if (response.status === "success" || response.code === 200) {
         navigate("/dashboard/result", {
@@ -369,14 +369,14 @@ export default function Profile() {
                   <div className="w-full flex justify-start items-baseline gap-2">
                     {isPremium ? (
                       <div className="text-white text-5xl font-black font-inter flex items-center h-15">
-                        <FontAwesomeIcon icon={faInfinity} />
+                        <FontAwesomeIcon icon={faInfinity} className="text-4xl" />
                       </div>
                     ) : (
-                      <div className="justify-center text-white text-6xl font-black font-inter leading-none">
+                      <div className="justify-center items-center text-white text-6xl font-black font-inter leading-none">
                         {currentTokens}
                       </div>
                     )}
-                    <div className="opacity-70 justify-center text-white text-lg font-bold font-inter">
+                    <div className="opacity-70 justify-center items-center text-white text-lg font-bold font-inter">
                       Tokens
                     </div>
                   </div>
