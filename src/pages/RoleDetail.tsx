@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,14 +14,39 @@ import type { RecommendationItem } from "../types/dashboard";
 export default function RoleDetail() {
   const location = useLocation();
   const navigate = useNavigate();
+  
   const state = location.state as {
     jobData: RecommendationItem;
     candidateName?: string;
     candidateExpYears?: number;
   } | null;
+
   const job = state?.jobData;
   const candidateName = state?.candidateName || "Kandidat";
   const candidateExpYears = state?.candidateExpYears ?? 0;
+
+  // 🟢 PERBAIKAN 1: PindahkanuseMemo ke ATAS (Sebelum early return 'if (!job)') agar patuh pada Rules of Hooks
+  const cleanedSoftSkills = useMemo(() => {
+    const rawSkills = job?.req_soft_skills;
+    if (!rawSkills) return ["problem solving"];
+
+    if (Array.isArray(rawSkills)) {
+      return rawSkills.map(s => String(s).trim());
+    }
+
+    try {
+      // 🟢 PERBAIKAN 2: Sederhanakan regex tanpa escape character '\\[' yang sia-sia di dalam character class
+      const cleanString = rawSkills
+        .replace(/[[\]'"\s]/g, "") 
+        .split(",")
+        .filter(Boolean);
+        
+      return cleanString.length > 0 ? cleanString : ["problem solving"];
+    } catch (e) {
+      console.error("Gagal melakukan parsing soft skills:", e);
+      return ["problem solving"];
+    }
+  }, [job?.req_soft_skills]);
 
   useEffect(() => {
     if (!job) {
@@ -29,6 +54,7 @@ export default function RoleDetail() {
     }
   }, [job, navigate]);
 
+  // 🟢 Early return ditaruh di bawah deklarasi Hooks demi keamanan render sirkuit
   if (!job) return null;
 
   const isStrongFit = job.match_score_percent >= 80;
@@ -112,6 +138,7 @@ export default function RoleDetail() {
             </span>
           </div>
         </div>
+        
         <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
           <div className="lg:col-span-2 flex flex-col gap-6">
             <div className="p-6 md:p-8 bg-gray-50 border border-gray-100 rounded-2xl flex gap-4 items-start">
@@ -128,12 +155,14 @@ export default function RoleDetail() {
                 </p>
               </div>
             </div>
+            
             <div className="p-6 md:p-8 bg-white border border-gray-100 rounded-2xl shadow-xs flex flex-col gap-6">
               <div>
                 <h3 className="text-zinc-900 text-base font-bold font-manrope">
                   Skill Alignment Matrix
                 </h3>
               </div>
+              
               <div className="space-y-3">
                 <span className="text-gray-400 text-[10px] font-bold tracking-wider block">
                   MATCHED TECHNICAL SKILLS
@@ -158,29 +187,24 @@ export default function RoleDetail() {
                   )}
                 </div>
               </div>
+              
               <div className="space-y-3 pt-4 border-t border-gray-50">
                 <span className="text-gray-400 text-[10px] font-bold tracking-wider block">
                   REQUIRED SOFT SKILLS
                 </span>
                 <div className="flex flex-wrap gap-2">
-                  {job.req_soft_skills ? (
-                    job.req_soft_skills.split(",").map((sSkill, idx) => (
-                      <div
-                        key={idx}
-                        className="px-3 py-1.5 bg-gray-50 border border-gray-100 text-zinc-800 text-xs font-semibold rounded-lg flex items-center gap-1.5"
-                      >
-                        <span className="w-1.5 h-1.5 bg-blue-800 rounded-full"></span>
-                        <span>{sSkill.trim()}</span>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="px-3 py-1.5 bg-gray-50 border border-gray-100 text-zinc-800 text-xs font-semibold rounded-lg flex items-center gap-1.5">
+                  {cleanedSoftSkills.map((sSkill, idx) => (
+                    <div
+                      key={idx}
+                      className="px-3 py-1.5 bg-gray-50 border border-gray-100 text-zinc-800 text-xs font-semibold rounded-lg flex items-center gap-1.5"
+                    >
                       <span className="w-1.5 h-1.5 bg-blue-800 rounded-full"></span>
-                      <span>problem solving</span>
+                      <span>{sSkill}</span>
                     </div>
-                  )}
+                  ))}
                 </div>
               </div>
+              
               <div className="space-y-3 pt-4 border-t border-gray-50">
                 <span className="text-gray-400 text-[10px] font-bold tracking-wider block">
                   MISSING SKILLS
@@ -200,14 +224,14 @@ export default function RoleDetail() {
                   ))}
                   {job.missing_skills.length === 0 && (
                     <p className="text-emerald-700 text-xs font-semibold flex items-center gap-1">
-                      ✨ Semua kebutuhan keahlian teknis terpenuhi dengan
-                      sempurna!
+                      ✨ Semua kebutuhan keahlian teknis terpenuhi dengan sempurna!
                     </p>
                   )}
                 </div>
               </div>
             </div>
           </div>
+          
           <div className="p-6 bg-white border border-gray-100 rounded-2xl shadow-xs flex flex-col gap-6">
             <div>
               <h3 className="text-zinc-900 text-base font-bold font-manrope">

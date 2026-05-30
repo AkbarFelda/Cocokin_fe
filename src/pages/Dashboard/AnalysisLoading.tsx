@@ -73,8 +73,8 @@ export default function AnalysisLoading() {
   const strokeDashoffset = 439.6 - (439.6 * progress) / 100;
   const steps = [
     { title: "Mengambil data CV", desc: "Data berhasil dimuat" },
-    { title: "Menganalisis skill", desc: "52 kompetensi teridentifikasi" },
-    { title: "Mencocokkan role", desc: "Memetakan pada 5,000+ data industri" },
+    { title: "Menganalisis skill", desc: "750 kompetensi teridentifikasi" },
+    { title: "Mencocokkan role", desc: "Memetakan pada 2000+ data industri" },
     { title: "Menghasilkan insight", desc: "Menghitung klaster akurasi final" },
   ];
 
