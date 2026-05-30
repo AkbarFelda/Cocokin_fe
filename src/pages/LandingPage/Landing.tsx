@@ -1,10 +1,32 @@
+import { useNavigate } from "react-router-dom";
 import { graphImage, meetingPhoto, user1, user2 } from "../../assets/images";
-import { icon1, icon2, icon3, akurasiIcon, falseIcon, trueIcon, infoIcon } from "../../assets/icons";
+import {
+  icon1,
+  icon2,
+  icon3,
+  akurasiIcon,
+  falseIcon,
+  trueIcon,
+  infoIcon,
+} from "../../assets/icons";
 
 export default function Landing() {
+  const navigate = useNavigate();
+
+  const handleAction = () => {
+    const token = localStorage.getItem("accessToken");
+    
+    if (token) {
+      console.log("🟢 Token ditemukan, mengalihkan ke dashboard...");
+      navigate("/dashboard");
+    } else {
+      console.log("🔴 Token tidak ditemukan, diarahkan ke gerbang auth...");
+      navigate("/login");
+    }
+  };
+
   return (
     <div className="font-inter text-gray-900 bg-white antialiased">
-      
       <section className="bg-gray-50 py-16">
         <div className="container mx-auto flex flex-col md:flex-row items-center gap-8 px-6">
           <div className="self-stretch inline-flex flex-col justify-start items-start gap-6 md:w-1/2">
@@ -19,7 +41,7 @@ export default function Landing() {
                   Tau kamu cocoknya
                   <br />
                   jadi apa dari{" "}
-                </span>7
+                </span>
                 <span className="text-blue-800 text-5xl md:text-7xl font-bold font-manrope leading-tight">
                   skill &<br />
                   project nyata
@@ -30,19 +52,29 @@ export default function Landing() {
               <div className="justify-center text-gray-700 text-xl font-normal font-inter leading-7">
                 Cocokin menganalisis CV dan portfolio kamu untuk memberikan
                 <br className="hidden md:inline" />
-                rekomendasi karir yang akurat, lengkap dengan alasan dan gap
-                yang
+                rekomendasi karir yang akurat, lengkap dengan alasan dan gap yang
                 <br className="hidden md:inline" />
                 harus diperbaiki.
               </div>
             </div>
+            
             <div className="self-stretch pt-4 inline-flex justify-start items-start gap-4">
-              <div className="px-8 py-4 bg-linear-86 from-blue-800 to-blue-700 rounded-2xl inline-flex flex-col justify-center items-center cursor-pointer hover:opacity-90 transition">
+              <div 
+                onClick={handleAction}
+                className="px-8 py-4 bg-linear-86 from-blue-800 to-blue-700 rounded-2xl inline-flex flex-col justify-center items-center cursor-pointer hover:opacity-90 transition select-none"
+              >
                 <div className="text-center justify-center text-white text-lg font-bold font-inter leading-7">
                   Analyze My Profile
                 </div>
               </div>
-              <div onClick={() => document.getElementById("cara-kerja")?.scrollIntoView({ behavior: "smooth" })} className="px-8 py-4 bg-gray-100 rounded-2xl inline-flex flex-col justify-center items-center cursor-pointer hover:bg-gray-200 transition">
+              <div
+                onClick={() =>
+                  document
+                    .getElementById("cara-kerja")
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+                className="px-8 py-4 bg-gray-100 rounded-2xl inline-flex flex-col justify-center items-center cursor-pointer hover:bg-gray-200 transition select-none"
+              >
                 <div className="text-center justify-center text-gray-700 text-lg font-bold font-inter leading-7">
                   Lihat Cara Kerja
                 </div>
@@ -59,7 +91,10 @@ export default function Landing() {
         </div>
       </section>
 
-      <section id="cara-kerja" className="w-full py-24 bg-gray-100 flex flex-col justify-start items-start">
+      <section
+        id="cara-kerja"
+        className="w-full py-24 bg-gray-100 flex flex-col justify-start items-start"
+      >
         <div className="container mx-auto px-6 flex flex-col justify-start items-start gap-16">
           <div className="self-stretch flex flex-col justify-start items-center gap-4">
             <div className="self-stretch flex flex-col justify-start items-center">
@@ -88,7 +123,8 @@ export default function Landing() {
               </div>
               <div className="self-stretch flex flex-col justify-start items-start">
                 <div className="self-stretch justify-center text-gray-700 text-base font-normal font-inter leading-6">
-                  Unggah CV berupa PDF, yang berisi pengalaman kerja, proyek, dan skill yang kamu miliki.
+                  Unggah CV berupa PDF, yang berisi pengalaman kerja, proyek,
+                  dan skill yang kamu miliki.
                 </div>
               </div>
             </div>
@@ -122,7 +158,8 @@ export default function Landing() {
               <div className="self-stretch flex flex-col justify-start items-start">
                 <div className="self-stretch justify-center text-gray-700 text-base font-normal font-inter leading-6">
                   Dapatkan laporan lengkap tentang role yang paling cocok,
-                  daftar skill gap, dan langkah konkret untuk mencapai karir impianmu.
+                  daftar skill gap, dan langkah konkret untuk mencapai karir
+                  impianmu.
                 </div>
               </div>
             </div>
@@ -152,7 +189,8 @@ export default function Landing() {
                 </div>
                 <div className="self-stretch flex flex-col justify-start items-start">
                   <div className="justify-center text-gray-600 text-sm font-normal font-inter leading-relaxed">
-                    Lihat bagaimana proyek masa lalumu memprediksi kesuksesan masa depanmu.
+                    Lihat bagaimana proyek masa lalumu memprediksi kesuksesan
+                    masa depanmu.
                   </div>
                 </div>
               </div>
@@ -161,25 +199,39 @@ export default function Landing() {
             <div className="md:col-span-4 flex flex-col gap-8">
               <div className="w-full p-8 relative bg-blue-800 rounded-3xl shadow-xs flex flex-col justify-end items-start min-h-65 flex-1 overflow-hidden">
                 <div className="absolute right-8 top-8 w-10 h-10 opacity-30 flex justify-center items-center">
-                  <img src={akurasiIcon} alt="Akurasi Icon" className="w-full h-full object-contain" />
+                  <img
+                    src={akurasiIcon}
+                    alt="Akurasi Icon"
+                    className="w-full h-full object-contain"
+                  />
                 </div>
-                
                 <div className="self-stretch flex flex-col justify-start items-start gap-2 mt-auto">
                   <h3 className="text-white text-3xl font-bold font-manrope leading-8">
                     98% Akurasi
                   </h3>
                   <p className="text-indigo-100 text-sm font-normal font-inter leading-6 max-w-sm">
-                    Algoritma kami telah dilatih dengan jutaan data karir profesional global.
+                    Algoritma kami telah dilatih dengan jutaan data karir
+                    profesional global.
                   </p>
                 </div>
               </div>
 
               <div className="w-full p-8 bg-white rounded-3xl border border-gray-100 shadow-md flex flex-col justify-end items-start min-h-65 flex-1 gap-4">
                 <div className="flex items-center -space-x-3 overflow-hidden">
-                  <img className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover" src={user1} alt="User 1" />
-                  <img className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover" src={user2} alt="User 2" />
+                  <img
+                    className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover"
+                    src={user1}
+                    alt="User 1"
+                  />
+                  <img
+                    className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover"
+                    src={user2}
+                    alt="User 2"
+                  />
                   <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 ring-2 ring-white">
-                    <span className="text-[10px] font-bold font-inter text-blue-800">+12k</span>
+                    <span className="text-[10px] font-bold font-inter text-blue-800">
+                      +12k
+                    </span>
                   </div>
                 </div>
 
@@ -188,7 +240,8 @@ export default function Landing() {
                     Trusted by Professionals
                   </h3>
                   <p className="text-gray-600 text-sm font-normal font-inter leading-relaxed">
-                    Telah digunakan oleh ribuan talenta untuk transisi karir yang lebih mulus.
+                    Telah digunakan oleh ribuan talenta untuk transisi karir
+                    yang lebih mulus.
                   </p>
                 </div>
               </div>
@@ -260,7 +313,7 @@ export default function Landing() {
                   </td>
                   <td className="pl-14 pr-8 py-8">
                     <div className="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-bold">
-                      <img src={trueIcon} alt="True Icon" className="w-full h-full object-contain brightness-0 opacity-70" />
+                      <img src={trueIcon} alt="True Icon" className="w-full h-full object-contain" />
                     </div>
                   </td>
                 </tr>
@@ -312,20 +365,20 @@ export default function Landing() {
 
       <section className="w-full py-24 px-8 bg-gray-50 flex flex-col justify-start items-center overflow-hidden">
         <div className="container mx-auto max-w-304">
-          
           <div className="w-full bg-blue-600 rounded-[40px] px-6 py-16 md:py-20 flex flex-col justify-center items-center text-center shadow-xl shadow-blue-900/10 border border-blue-500/20">
             <h2 className="font-manrope text-white text-3xl md:text-5xl font-extrabold tracking-tight mb-4 max-w-2xl leading-tight">
               Siap Temukan Karir Idamanmu?
             </h2>
             <p className="font-inter text-blue-100 text-sm md:text-base font-normal max-w-xl leading-relaxed mb-10 opacity-90">
-              Jangan biarkan potensimu terbuang di tempat yang salah. Mulai analisis sekarang secara gratis.
+              Jangan biarkan potensimu terbuang di tempat yang salah. Mulai
+              analisis sekarang secara gratis.
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full">
-              <button className="font-inter bg-white text-blue-800 font-bold px-7 py-3.5 rounded-xl hover:bg-blue-50 transition-all duration-200 shadow-sm w-full sm:w-auto text-sm tracking-wide cursor-pointer">
+              <button 
+                onClick={handleAction}
+                className="font-inter bg-white text-blue-800 font-bold px-7 py-3.5 rounded-xl hover:bg-blue-50 transition-all duration-200 shadow-sm w-full sm:w-auto text-sm tracking-wide cursor-pointer"
+              >
                 Analyze My Profile
-              </button>
-              <button className="font-inter border border-white/30 bg-blue-700/20 text-white font-bold px-7 py-3.5 rounded-xl hover:bg-white/10 transition-all duration-200 w-full sm:w-auto text-sm tracking-wide cursor-pointer">
-                Hubungi Ahli Karir
               </button>
             </div>
           </div>
