@@ -23,6 +23,7 @@ export interface AnalysisData {
   name: string;
   document_id: string;
   filename: string;
+  candidate_name: string;
   extracted_text_preview?: string;
   target_role: string;
   industry_sector_cand: string;

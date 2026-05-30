@@ -33,9 +33,9 @@ export default function AnalysisResult() {
     return (analysis?.recommendations || []) as RecommendationItem[];
   }, [analysis]);
   const filename = analysis?.filename;
-  const targetIndustry = profile?.target_role;
+  const targetIndustry = analysis?.industry_sector_cand || "Unknown Industry";
   const candidateName = useMemo(() => {
-    const rawText = analysis?.name || "";
+    const rawText = analysis?.candidate_name || "";
     if (!rawText) return "Kandidat";
     const namePart = rawText.split("Email:")[0];
     return namePart ? namePart.trim() : "Kandidat";
