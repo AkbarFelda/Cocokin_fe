@@ -45,7 +45,7 @@ export default function Navbar() {
 
   const handleBackNavigation = () => {
     if (location.pathname.includes("result") && isFromHistory) {
-      navigate("/dashboard/profile");
+      navigate("/profile");
     } else {
       navigate(-1);
     }

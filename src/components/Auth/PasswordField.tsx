@@ -8,7 +8,6 @@ interface PasswordFieldProps {
   value: string;
   onChange: (value: string) => void;
   required?: boolean;
-  // 🟢 Tambahkan prop variant untuk menentukan gaya box atau line
   variant?: "box" | "line"; 
 }
 
@@ -18,7 +17,7 @@ export default function PasswordField({
   value,
   onChange,
   required = false,
-  variant = "box", // Default-nya kita set gaya kotak (box)
+  variant = "box",
 }: PasswordFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -30,8 +29,6 @@ export default function PasswordField({
         </label>
       )}
       <div className="self-stretch relative flex flex-col justify-start items-start w-full">
-        
-        {/* 🟢 Kondisi CSS dinamis berdasarkan isi prop variant */}
         <div className={`w-full flex justify-start items-center overflow-hidden transition duration-200 
           ${variant === "line" 
             ? "py-2.5 border-b-2 border-zinc-200 focus-within:border-blue-600" 
@@ -48,8 +45,6 @@ export default function PasswordField({
               ${variant === "line" ? "pl-0 py-0" : "pl-5 py-3.5"}`}
           />
         </div>
-        
-        {/* Tombol Mata (posisinya otomatis presisi menyesuaikan gaya input) */}
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}

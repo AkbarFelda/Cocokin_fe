@@ -24,8 +24,6 @@ export default function RoleDetail() {
   const job = state?.jobData;
   const candidateName = state?.candidateName || "Kandidat";
   const candidateExpYears = state?.candidateExpYears ?? 0;
-
-  // 🟢 PERBAIKAN 1: PindahkanuseMemo ke ATAS (Sebelum early return 'if (!job)') agar patuh pada Rules of Hooks
   const cleanedSoftSkills = useMemo(() => {
     const rawSkills = job?.req_soft_skills;
     if (!rawSkills) return ["problem solving"];
@@ -35,7 +33,6 @@ export default function RoleDetail() {
     }
 
     try {
-      // 🟢 PERBAIKAN 2: Sederhanakan regex tanpa escape character '\\[' yang sia-sia di dalam character class
       const cleanString = rawSkills
         .replace(/[[\]'"\s]/g, "") 
         .split(",")
@@ -53,8 +50,6 @@ export default function RoleDetail() {
       navigate("/dashboard");
     }
   }, [job, navigate]);
-
-  // 🟢 Early return ditaruh di bawah deklarasi Hooks demi keamanan render sirkuit
   if (!job) return null;
 
   const isStrongFit = job.match_score_percent >= 80;
