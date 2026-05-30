@@ -1,5 +1,6 @@
 import { faBullseye, faScaleBalanced } from "@fortawesome/free-solid-svg-icons";
 import MissionCard from "../../components/LandingPage/MissionCard";
+import { teamMembers } from "../../data/teamData";
 import { JangkaIcon } from "../../assets/icons";
 
 export default function Company() {
@@ -40,13 +41,18 @@ export default function Company() {
 
             <div className="w-full max-w-xs p-6 absolute -bottom-6 left-6 md:-left-6 bg-white rounded-2xl shadow-xl border border-gray-200/40 flex flex-col justify-start items-start gap-3 z-10 text-left">
               <div className="w-4 h-7 rounded-xs">
-                <img src={JangkaIcon} alt="Jangka Icon" className="w-full h-full object-contain" />
+                <img
+                  src={JangkaIcon}
+                  alt="Jangka Icon"
+                  className="w-full h-full object-contain"
+                />
               </div>
               <h3 className="text-zinc-900 text-lg font-bold font-manrope">
                 Structure & Clarity
               </h3>
               <p className="text-gray-700 text-sm font-normal leading-relaxed">
-                We turn unstructured career data into clear, structured insights.
+                We turn unstructured career data into clear, structured
+                insights.
               </p>
             </div>
           </div>
@@ -89,7 +95,7 @@ export default function Company() {
           </div>
 
           <div className="lg:col-span-7 flex flex-col justify-between gap-8 text-left">
-            <div className="flex flex-row gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex flex-col gap-2">
                 <h3 className="text-zinc-900 text-xl font-semibold font-manrope">
                   A Need for Clarity
@@ -122,6 +128,48 @@ export default function Company() {
                 className="w-full h-full object-cover"
               />
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="w-full py-24 bg-gray-50 flex flex-col items-center">
+        <div className="container mx-auto px-6 max-w-7xl flex flex-col justify-start items-start gap-16">
+          <div className="self-stretch flex flex-col justify-start items-center gap-4">
+            <div className="self-stretch flex flex-col justify-start items-center">
+              <h2 className="text-center justify-center text-zinc-900 text-4xl font-extrabold font-manrope leading-10">
+                The Minds Behind Cocokin
+              </h2>
+            </div>
+          </div>
+
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {teamMembers.map((member, idx) => (
+              <div
+                key={idx}
+                className="p-8 bg-white rounded-2xl shadow-xs border border-gray-100 flex flex-col gap-5 text-left hover:shadow-md transition-all duration-200"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-inner">
+                    <img
+                      className="w-full h-full object-cover"
+                      src={member.image}
+                      alt={member.name}
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <h4 className="text-zinc-900 text-lg font-bold font-manrope leading-tight">
+                      {member.name}
+                    </h4>
+                    <span className="text-blue-800 text-xs font-bold font-inter tracking-wide mt-0.5">
+                      {member.role}
+                    </span>
+                    <span className="text-gray-400 text-[10px] font-semibold tracking-wider uppercase mt-0.5">
+                      {member.specialty}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
