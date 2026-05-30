@@ -5,21 +5,40 @@ import { logoCocokin, supportIcon } from "../assets/icons";
 import { waveTexture } from "../assets/images";
 import PasswordField from "../components/Auth/PasswordField";
 import { authService } from "../services/auth";
+import { validateEmail, validatePassword } from "../utils/validators";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isLoading) return;
+
     setErrorMsg("");
+    setEmailError("");
+    setPasswordError("");
+
+    const errEmail = validateEmail(email);
+    const errPassword = validatePassword(password);
+
+    if (errEmail || errPassword) {
+      setEmailError(errEmail);
+      setPasswordError(errPassword);
+      console.log("Validasi frontend gagal, membatalkan request API.");
+      return;
+    }
 
     try {
+      setIsLoading(true);
       const result = await authService.login({ email, password });
 
-      // console.log("Login sukses weh! Token didapat:", result.data);
       console.log("Login sukses weh! Token didapat");
       localStorage.setItem("accessToken", result.data.accessToken);
       localStorage.setItem("refreshToken", result.data.refreshToken);
@@ -32,11 +51,26 @@ export default function Login() {
       } else {
         setErrorMsg("Terjadi kesalahan sistem, coba lagi nanti.");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen w-full flex font-inter bg-white antialiased">
+    <div className="min-h-screen w-full flex font-inter bg-white antialiased relative">
+      
+      {/* 🟢 PERBAIKAN: Pembungkus Full-Screen Overlay Loading biar pas mengunci di tengah layar sesuai image_31a776.png */}
+      {isLoading && (
+        <div className="fixed inset-0 bg-white/70 backdrop-blur-md z-50 flex flex-col justify-center items-center gap-4 animate-fade-in">
+          <LoadingSpinner size="md" />
+          {/* Teks status di bawah spinner pas seperti referensi gambar */}
+          <p className="text-slate-500 text-sm font-bold font-inter tracking-wide animate-pulse">
+            Memverifikasi Akun...
+          </p>
+        </div>
+      )}
+
+      {/* LEFT SIDEBAR BANNER */}
       <div className="hidden md:flex md:w-1/2 relative flex-col justify-center items-start p-16 overflow-hidden">
         <div className="absolute inset-0 bg-blue-800 opacity-100 z-0">
           <div className="absolute inset-0 bg-linear-to-b from-blue-700 to-blue-900">
@@ -122,6 +156,7 @@ export default function Login() {
         </div>
       </div>
 
+      {/* RIGHT SIDEFORM */}
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center px-8 sm:px-16 lg:px-24 xl:px-32 bg-white relative">
         <div className="absolute right-8 bottom-8 z-30 flex row-auto items-center gap-2 px-3 py-1.5 bg-zinc-50 border border-gray-100 rounded-full shadow-sm hover:bg-gray-100 transition cursor-pointer">
           <img src={supportIcon} alt="Support" />
@@ -141,23 +176,32 @@ export default function Login() {
           </div>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 text-left">
               <label className="text-sm font-semibold text-zinc-800 font-inter">
                 EMAIL ADDRESS
               </label>
               <div className="relative">
                 <input
-                  type="email"
+                  type="text"
                   placeholder="name@gmail.com"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="w-full pl-5 pr-12 py-3.5 rounded-xl border border-gray-200 text-base placeholder:text-gray-300 focus:outline-hidden focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition duration-200 font-inter"
+                  disabled={isLoading}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (emailError) setEmailError("");
+                  }}
+                  className={`w-full pl-5 pr-12 py-3.5 rounded-xl border text-base placeholder:text-gray-300 focus:outline-hidden focus:ring-1 transition duration-200 font-inter
+                    ${emailError ? "border-red-500 focus:border-red-500 focus:ring-red-500" : "border-gray-200 focus:border-blue-600 focus:ring-blue-600"}`}
                 />
               </div>
+              {emailError && (
+                <p className="text-red-500 text-xs font-medium mt-0.5 animate-fade-in">
+                  {emailError}
+                </p>
+              )}
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 text-left">
               <div className="flex justify-between items-center w-full">
                 <label className="text-sm font-semibold text-zinc-800 font-inter">
                   PASSWORD
@@ -174,10 +218,17 @@ export default function Login() {
                 label=""
                 placeholder="•••••••••••••"
                 value={password}
-                onChange={setPassword}
-                required
+                onChange={(val) => {
+                  setPassword(val);
+                  if (passwordError) setPasswordError("");
+                }}
                 variant="box"
               />
+              {passwordError && (
+                <p className="text-red-500 text-xs font-medium mt-0.5 animate-fade-in">
+                  {passwordError}
+                </p>
+              )}
             </div>
 
             {errorMsg && (
@@ -188,42 +239,11 @@ export default function Login() {
 
             <button
               type="submit"
-              className="w-full font-inter bg-blue-700 text-white font-bold py-3.5 rounded-xl hover:bg-blue-800 shadow-xs transition duration-200 mt-2 cursor-pointer text-base tracking-wide"
+              disabled={isLoading}
+              className={`w-full font-inter text-white font-bold py-3.5 rounded-xl shadow-xs transition duration-200 mt-2 text-base tracking-wide border-none outline-none
+                ${isLoading ? "bg-blue-800/70 cursor-not-allowed" : "bg-blue-700 hover:bg-blue-800 cursor-pointer"}`}
             >
               Masuk
-            </button>
-
-            <div className="relative flex py-3 items-center">
-              <div className="grow border-t border-gray-100/60"></div>
-              <span className="shrink mx-4 text-xs text-gray-400 uppercase font-medium font-inter opacity-70">
-                or continue with
-              </span>
-              <div className="grow border-t border-gray-100/60"></div>
-            </div>
-
-            <button
-              type="button"
-              className="w-full font-inter border border-gray-200 bg-white text-gray-700 font-bold py-3 rounded-xl hover:bg-gray-50 transition duration-200 flex justify-center items-center gap-3 cursor-pointer text-sm"
-            >
-              <svg className="w-5 h-5" viewBox="0 0 24 24">
-                <path
-                  fill="#EA4335"
-                  d="M12 5.04c1.64 0 3.12.56 4.28 1.67l3.2-3.2C17.52 1.58 14.97 1 12 1 7.35 1 3.4 3.65 1.5 7.5l3.86 3c.9-2.7 3.4-4.46 6.64-4.46z"
-                />
-                <path
-                  fill="#4285F4"
-                  d="M23.49 12.27c0-.8-.07-1.56-.2-2.27H12v4.51h6.44c-.28 1.47-1.11 2.71-2.36 3.55l3.66 2.84c2.14-1.97 3.38-4.88 3.38-8.63z"
-                />
-                <path
-                  fill="#FBBC05"
-                  d="M5.36 14.5c-.24-.72-.38-1.49-.38-2.3s.14-1.58.38-2.3L1.5 6.9C.54 8.84 0 11.02 0 12.3s.54 3.46 1.5 5.4l3.86-3z"
-                />
-                <path
-                  fill="#34A853"
-                  d="M12 23c3.24 0 5.97-1.08 7.96-2.91l-3.66-2.84c-1.01.68-2.31 1.09-4.3 1.09-3.24 0-5.74-1.76-6.64-4.46l-3.86 3C3.4 20.35 7.35 23 12 23z"
-                />
-              </svg>
-              Google
             </button>
           </form>
 
